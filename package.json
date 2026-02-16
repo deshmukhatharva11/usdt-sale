@@ -1,0 +1,48 @@
+{
+    "name": "pvc-meta-blockchain",
+    "version": "1.0.0",
+    "description": "PVC Meta - Blockchain-based user registration with smart contract approval",
+    "main": "server/server.js",
+    "scripts": {
+        "start": "node server/server.js",
+        "dev": "nodemon server/server.js",
+        "deploy:testnet": "npx hardhat run contracts/deploy.js --network bsc_testnet",
+        "deploy:mainnet": "npx hardhat run contracts/deploy.js --network bsc_mainnet",
+        "compile": "npx hardhat compile",
+        "test": "npx hardhat test"
+    },
+    "keywords": [
+        "blockchain",
+        "web3",
+        "BSC",
+        "smart-contract",
+        "registration"
+    ],
+    "author": "PVC Meta Team",
+    "license": "MIT",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "ethers": "^6.13.5",
+        "express": "^4.18.2",
+        "express-rate-limit": "^7.1.1",
+        "express-validator": "^7.0.1",
+        "helmet": "^7.0.0",
+        "ioredis": "^5.9.3",
+        "jsonwebtoken": "^9.0.2",
+        "node-cron": "^4.2.1",
+        "pg": "^8.18.0",
+        "pg-hstore": "^2.3.4",
+        "sequelize": "^6.37.7",
+        "web3": "^4.16.0"
+    },
+    "devDependencies": {
+        "@nomiclabs/hardhat-ethers": "^2.2.3",
+        "@nomiclabs/hardhat-waffle": "^2.0.6",
+        "chai": "^4.3.10",
+        "ethereum-waffle": "^4.0.10",
+        "hardhat": "^2.18.2",
+        "nodemon": "^3.0.1"
+    }
+}

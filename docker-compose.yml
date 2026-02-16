@@ -1,0 +1,154 @@
+services:
+  # NGINX Reverse Proxy (entry point)
+  nginx:
+    image: nginx:alpine
+    container_name: pvc-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+    networks:
+      - pvc-network
+
+  # Redis Cache (internal only — no public port)
+  redis:
+    image: redis:7-alpine
+    container_name: pvc-redis
+    restart: always
+    ports:
+      - "127.0.0.1:6379:6379" # localhost only — for local dev
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru --requirepass ${REDIS_PASSWORD:-changeme_redis}
+    volumes:
+      - redis_data:/data
+    networks:
+      - pvc-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-changeme_redis}", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Backend API
+  backend:
+    build: .
+    container_name: pvc-backend
+    restart: always
+    # No external port — accessed only via NGINX
+    expose:
+      - "3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - DB_HOST=pgbouncer
+      - DB_NAME=${DB_NAME:-pvc_meta}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASS=${DB_PASS}
+      - DB_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-changeme_redis}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-2h}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - BSC_RPC_URL=${BSC_RPC_URL:-https://bsc-dataseed1.binance.org/}
+      - BSC_RPC_URLS=${BSC_RPC_URLS}
+      - BSC_TESTNET_RPC_URL=${BSC_TESTNET_RPC_URL}
+      - BSC_CHAIN_ID=${BSC_CHAIN_ID:-56}
+      - USDT_TOKEN_ADDRESS=${USDT_TOKEN_ADDRESS:-0x55d398326f99059fF775485246999027B3197955}
+      - BALANCE_FETCHER_ADDRESS=${BALANCE_FETCHER_ADDRESS}
+      - MINE_CONTRACT_ADDRESS=${MINE_CONTRACT_ADDRESS}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - pvc-network
+
+  # PgBouncer Connection Pooler (reverted to edoburu with fix)
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    container_name: pvc-pgbouncer
+    restart: always
+    ports:
+      - "127.0.0.1:6432:5432" # localhost only — for local dev
+    environment:
+      - DATABASE_URL=postgres://${DB_USER:-postgres}:${DB_PASS}@postgres:5432/${DB_NAME:-pvc_meta}
+      - POOL_MODE=session
+      - MAX_CLIENT_CONN=200
+      - DEFAULT_POOL_SIZE=25
+      - AUTH_TYPE=scram-sha-256
+      - AUTH_USER=${DB_USER:-postgres}
+      - AUTH_QUERY=SELECT usename, passwd FROM pg_shadow WHERE usename=$1
+      - IGNORE_STARTUP_PARAMETERS=extra_float_digits,options,application_name
+      - VERBOSE=1
+      - REVERSE_DNS=0
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASS}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - pvc-network
+
+  # PostgreSQL Database (internal only — no public port)
+  postgres:
+    image: postgres:15-alpine
+    container_name: pvc-postgres
+    restart: always
+    ports:
+      - "127.0.0.1:5432:5432" # localhost only — for local dev
+    environment:
+      - POSTGRES_DB=${DB_NAME:-pvc_meta}
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - pvc-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # PGAdmin (Database Management UI) — localhost only for dev access
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pvc-pgadmin
+    restart: always
+    ports:
+      - "127.0.0.1:5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@pvcmeta.io}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-changeme_pgadmin}
+    networks:
+      - pvc-network
+    depends_on:
+      - postgres
+  # Cloudflare Tunnel (uncomment and configure with your tunnel token)
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   container_name: pvc-cloudflared
+  #   restart: always
+  #   command: tunnel --no-autoupdate run
+  #   environment:
+  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+  #   depends_on:
+  #     - nginx
+  #   networks:
+  #     - pvc-network
+
+networks:
+  pvc-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

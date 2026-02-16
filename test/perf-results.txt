@@ -1,0 +1,74 @@
+﻿ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+Γòæ     MineBalanceFetcher ΓÇö Performance Test                   Γòæ
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+≡ƒôï Config:
+   RPC URL:          https://bsc-dataseed1.binance.org/
+   Fetcher Contract: 0x9438AeD5504317855552665049e9ad8981cf7aFB
+   Batch Size:       500
+   Throttle:         300ms between batches
+   Limit:            2000 addresses
+
+≡ƒôé File Stats:
+   Total lines:      65,142
+   Unique addresses: 61,468
+   Duplicates:       3,674
+   File read time:   101ms
+
+   ΓÜá∩╕Å  Limited to 2,000 addresses
+
+≡ƒöù RPC connected. Current block: 8,14,31,406
+
+≡ƒÜÇ Starting balance fetch: 2,000 addresses in 4 batches
+
+   Batch  | Addresses |   Time   | Throughput | Errors
+   -------+-----------+----------+------------+-------
+       1  |       500 |    1.52s |      329/s |   Γ£à
+       2  |       500 |    1.21s |      414/s |   Γ£à
+       3  |       500 |    1.16s |      432/s |   Γ£à
+       4  |       500 |    1.26s |      398/s |   Γ£à
+
+ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+Γòæ                    PERFORMANCE RESULTS                      Γòæ
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+ΓÅ▒∩╕Å  Timing:
+   Total wall time:     6.06s
+   RPC time only:       5.14s
+   Throttle overhead:   900ms
+   Batches completed:   4
+   Batch errors:        0
+
+≡ƒôè Batch Latency:
+   Min:    1.16s
+   Avg:    1.29s
+   P50:    1.21s
+   P95:    1.52s
+   P99:    1.52s
+   Max:    1.52s
+
+≡ƒÜÇ Throughput:
+   Overall:   330 addresses/sec (incl. throttle)
+   RPC-only:  389 addresses/sec (excl. throttle)
+
+≡ƒÆ░ Balance Summary:
+   Total processed:     2,000
+   With balance > 0:    411 (20.5%)
+   With approval:       0 (0.0%)
+   Total USDT sum:      1459.3319 USDT
+   Max USDT balance:    168.3453 USDT
+   Max balance addr:    0x41ca9afdafaed6a3502d951888211152c56ab6fc
+
+≡ƒôê Balance Distribution:
+   $0:              1,589
+   $0.01-$1:          277
+   $1-$10:            102
+   $10-$100:           31
+   $100-$1000:          1
+   $1000+:              0
+
+≡ƒÆ╛ Estimated DB Update Time:
+   Bulk SQL update:     ~100ms (est. ~50┬╡s/row)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+Γ£à Performance test complete.
