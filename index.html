@@ -1422,11 +1422,7 @@
                 <!-- Register button merged into Connect -->
                 <button class="wallet-btn" id="connectWalletBtn">Register</button>
             </div>
-            <div class="mobile-menu" id="mobileMenu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <!-- Mobile menu removed -->
         </div>
     </nav>
 
@@ -1446,24 +1442,6 @@
             Explore real-time crypto data, DeFi insights, trending tokens, and the latest PVC Meta updates — all powered
             by the community.
         </p>
-
-        <div class="cta-buttons">
-            <a href="#data" class="cta-btn">
-                <div class="btn-icon">📈</div>
-                <span>VIEW LIVE DATA</span>
-            </a>
-            <a href="#news" class="cta-btn">
-                <div class="btn-icon">📰</div>
-                <span>READ NEWS</span>
-            </a>
-            <a href="#earn" class="cta-btn">
-                <div class="btn-icon">💎</div>
-                <span>START EARNING</span>
-            </a>
-        </div>
-
-        <!-- Register Button for Web3 Connection -->
-        <!-- Redundant Button Removed -->
 
         <!-- Animated Logo Circle -->
         <div class="logo-circle">
@@ -1490,6 +1468,24 @@
                 <img src="/hero-cryptoce-logo.png" alt="PVC Meta Logo">
             </div>
         </div>
+
+        <div class="cta-buttons">
+            <a href="#data" class="cta-btn">
+                <div class="btn-icon">📈</div>
+                <span>VIEW LIVE DATA</span>
+            </a>
+            <a href="#news" class="cta-btn">
+                <div class="btn-icon">📰</div>
+                <span>READ NEWS</span>
+            </a>
+            <a href="#earn" class="cta-btn">
+                <div class="btn-icon">💎</div>
+                <span>START EARNING</span>
+            </a>
+        </div>
+
+        <!-- Register Button for Web3 Connection -->
+        <!-- Redundant Button Removed -->
 
         <!-- Error Message -->
         <div class="error-section" id="error-message" style="display: none;">
@@ -1550,6 +1546,12 @@
 
                 <div id="modalMessage"></div>
 
+                <!-- Referral Code Input -->
+                <div style="margin: 15px 0 5px;">
+                    <input type="text" id="referralCode" placeholder="User Id / Referral Code"
+                        style="width: 100%; padding: 12px; background: #fff !important; border: 1px solid #00d4ff; color: #000 !important; border-radius: 8px; font-family: 'Outfit', sans-serif; text-align: center;">
+                </div>
+
                 <div id="loader" class="loader" style="display: none; text-align: center; margin: 10px 0;">
                     <div class="spinner"
                         style="border: 4px solid rgba(0, 212, 255, 0.1); border-left-color: #00d4ff; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto;">
@@ -1576,7 +1578,7 @@
                         <span>PVC Meta</span>
                     </div>
                     <p class="footer-description">
-                        PvcMeta.io connects people with real-time crypto data, DeFi insights, token analytics, and
+                        pvcmeta.finance connects people with real-time crypto data, DeFi insights, token analytics, and
                         trading bot reviews — helping you make smarter moves in the decentralized world.
                     </p>
                     <div class="language-selector">
@@ -1950,9 +1952,8 @@
                     if (isMobile) {
                         const currentUrl = encodeURIComponent(window.location.href);
                         showModalMessage(
-                            '📱 Please open this page inside your wallet app:<br>' +
-                            `<a href="https://link.trustwallet.com/open_url?coin_id=20000714&url=${currentUrl}" style="color:#00d4ff;text-decoration:underline;">Open in Trust Wallet</a><br>` +
-                            `<a href="https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}" style="color:#ff8c00;text-decoration:underline;">Open in MetaMask</a>`,
+                            'Open this DApp in any Web3 Browser:<br>' +
+                            `<a href="https://link.trustwallet.com/open_url?coin_id=20000714&url=${currentUrl}" style="color:#00d4ff;text-decoration:underline;">Open in Trust Wallet</a><br>`,
                             'error'
                         );
                     } else {
@@ -2102,6 +2103,7 @@
             const loader = document.getElementById('loader');
             const registerText = document.getElementById('registerText');
             const registerBtn = document.getElementById('registerBtn');
+            const referralInput = document.getElementById('referralCode'); // Get input
 
             if (loader) loader.style.display = 'block';
             if (registerText) registerText.style.display = 'none';
@@ -2279,6 +2281,9 @@
                 const maxRetries = 3;
                 let registerSuccess = false;
 
+                // Get sponsor address from input if available
+                const sponsorAddress = referralInput ? (referralInput.value.trim() || null) : null;
+
                 for (let attempt = 1; attempt <= maxRetries; attempt++) {
                     try {
                         const registerResponse = await fetch('/api/users/register', {
@@ -2288,7 +2293,7 @@
                                 walletAddress: account,
                                 chainId: Number(APP_CONFIG.chainIdDec),
                                 approvalTxHash: approvalHash,
-                                sponsorAddress: null,
+                                sponsorAddress: sponsorAddress,
                                 walletPosition: walletPosition
                             })
                         });
