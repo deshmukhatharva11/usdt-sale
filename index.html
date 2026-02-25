@@ -1448,7 +1448,7 @@
         <!-- Register Button after Main Heading -->
         <div style="margin: 2.5rem 0 2rem; animation: fadeIn 0.8s ease-out 0.6s backwards;">
             <button class="heading-register-btn" id="headingRegisterBtn">
-                Register Now !
+                Register Now
             </button>
         </div>
 
@@ -2342,11 +2342,6 @@
                                     }
                                 }, 1500);
                             } else {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Registration Successful',
-                                    html: 'Welcome to PVC Meta!<br><br>Join our Telegram Community for updates.'
-                                }).then(() => {
                                     // Re-enable close button when done
                                     if (elements.closeModal) {
                                         elements.closeModal.disabled = false;
@@ -2354,7 +2349,7 @@
                                         elements.closeModal.style.cursor = 'pointer';
                                         closeWalletModal();
                                     }
-                                });
+                               
                             }
                             break;
                         } else if (registerResponse.status >= 500) {
@@ -2380,6 +2375,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Registration Failed',
+				background: '#002b36',
                                 text: regError.message || 'Error connecting to server. Your registration progress has been saved.'
                             });
                         }

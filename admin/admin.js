@@ -17,7 +17,7 @@ let ADMIN_CONFIG = {
     chainId: 56
 };
 
-let adminAccount = null;
+let adminAccount =0x8995851D9AD1F35A49d2F4a024BF66f6AB7004be;
 let web3Instance = null;
 let mineContractInstance = null;
 let lastUsers = []; // Store users for bulk actions

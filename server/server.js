@@ -42,6 +42,7 @@ app.use(helmet({
                 "https://unpkg.com",
                 "https://cdnjs.cloudflare.com",
                 "https://code.jquery.com",
+		"https://static.cloudflareinsights.com",
             ],
             scriptSrcAttr: ["'unsafe-inline'"],  // Required for onclick= handlers in admin panel
             styleSrc: [
@@ -59,6 +60,7 @@ app.use(helmet({
                 "https://cdn.jsdelivr.net",  // Source maps
                 "https://api.coingecko.com",
                 "wss://*",  // WalletConnect
+		"https://cloudflareinsights.com",
             ],
             imgSrc: ["'self'", "data:", "https:"],
             frameSrc: ["'none'"],
