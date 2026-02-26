@@ -135,18 +135,18 @@ services:
       - cf-network
     depends_on:
       - postgres
-  # Cloudflare Tunnel — connects to Cloudflare edge for HTTPS + CDN
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cf-cloudflared
-    restart: always
-    command: tunnel --no-autoupdate run
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-    depends_on:
-      - nginx
-    networks:
-      - cf-network
+  # Cloudflare Tunnel (not needed — using A record + Cloudflare proxy instead)
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   container_name: cf-cloudflared
+  #   restart: always
+  #   command: tunnel --no-autoupdate run
+  #   environment:
+  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+  #   depends_on:
+  #     - nginx
+  #   networks:
+  #     - cf-network
 
 networks:
   cf-network:
