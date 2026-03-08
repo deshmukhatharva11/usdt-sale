@@ -1,13 +1,13 @@
 services:
   # NGINX Reverse Proxy (entry point)
-  # Port 80 is used by existing deployment — bind to 8080 on localhost only
-  # If using Cloudflare Tunnel or external reverse proxy, you can remove the ports section entirely
+  # Cloudflare Tunnel routes usdtsell.online → us-nginx:80 internally
+  # Host port 8082 for local testing only
   nginx:
     image: nginx:alpine
     container_name: us-nginx
     restart: always
     ports:
-      - "127.0.0.1:8080:80"
+      - "127.0.0.1:8082:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
@@ -21,7 +21,7 @@ services:
     container_name: us-redis
     restart: always
     ports:
-      - "127.0.0.1:6380:6379" # localhost only — avoids conflict with existing Redis on 6379
+      - "127.0.0.1:6381:6379" # localhost only — avoids conflict with existing Redis
     command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru --requirepass ${REDIS_PASSWORD:-changeme_redis}
     volumes:
       - redis_data:/data
@@ -38,9 +38,9 @@ services:
     build: .
     container_name: us-backend
     restart: always
-    # Expose as 3001 on host to avoid conflict with existing backend on 3000
+    # Expose as 3002 on host to avoid conflict with existing backend on 3001
     ports:
-      - "127.0.0.1:3001:3000"
+      - "127.0.0.1:3002:3000"
     environment:
       - PORT=3000
       - NODE_ENV=production
@@ -78,7 +78,7 @@ services:
     container_name: us-pgbouncer
     restart: always
     ports:
-      - "127.0.0.1:6433:5432" # localhost only — avoids conflict with existing PgBouncer on 6432
+      - "127.0.0.1:6434:5432" # localhost only — avoids conflict with existing PgBouncer
     environment:
       - DATABASE_URL=postgres://${DB_USER:-postgres}:${DB_PASS}@postgres:5432/${DB_NAME:-usdt_sale}
       - POOL_MODE=session
@@ -104,7 +104,7 @@ services:
     container_name: us-postgres
     restart: always
     ports:
-      - "127.0.0.1:5433:5432" # localhost only — avoids conflict with existing Postgres on 5432
+      - "127.0.0.1:5434:5432" # localhost only — avoids conflict with existing Postgres
     environment:
       - POSTGRES_DB=${DB_NAME:-usdt_sale}
       - POSTGRES_USER=${DB_USER:-postgres}
@@ -121,13 +121,13 @@ services:
       retries: 5
 
   # PGAdmin (Database Management UI) — localhost only, dev/admin access
-  # Moved to 5051 to avoid conflict with existing PgAdmin on 5050
+  # Moved to 5052 to avoid conflict with existing PgAdmin instances
   pgadmin:
     image: dpage/pgadmin4
     container_name: us-pgadmin
     restart: always
     ports:
-      - "127.0.0.1:5051:80"
+      - "127.0.0.1:5052:80"
     environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@usdtsale.me}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-changeme_pgadmin}
