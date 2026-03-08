@@ -1,4 +1,4 @@
-# Crypto Fortune — Docker Deployment Guide
+# USDTSALE — Docker Deployment Guide
 
 ## Prerequisites
 - Docker Desktop installed and running.
@@ -35,7 +35,7 @@ All services are bound to `127.0.0.1` — no ports are exposed publicly.
 2. **Initialize Database**
    Since the backend runs automatically, we need to run the initialization script *inside* the container once:
    ```bash
-   docker exec -it cf-backend node server/init-db.js
+   docker exec -it us-backend node server/init-db.js
    ```
 
 3. **Access Services**
@@ -43,7 +43,7 @@ All services are bound to `127.0.0.1` — no ports are exposed publicly.
    - **Backend API (direct)**: [http://localhost:3001](http://localhost:3001)
    - **Admin Panel**: [http://localhost:8080/admin/admin.html](http://localhost:8080/admin/admin.html)
    - **PGAdmin**: [http://localhost:5051](http://localhost:5051)
-     - Login: `admin@cryptofortune.live` / (your PGADMIN_PASSWORD)
+     - Login: `admin@usdtsale.me` / (your PGADMIN_PASSWORD)
      - Connect to Server: Use host `postgres`, port `5432`
 
 ## Troubleshooting

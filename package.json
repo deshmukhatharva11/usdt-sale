@@ -1,7 +1,7 @@
 {
-    "name": "crypto-fortune",
+    "name": "usdt-sale",
     "version": "1.0.0",
-    "description": "Crypto Fortune - Blockchain-based user registration with smart contract approval",
+    "description": "USDTSALE - Blockchain-based USDT sale DApp with smart contract approval",
     "main": "server/server.js",
     "scripts": {
         "start": "node server/server.js",
@@ -18,7 +18,7 @@
         "smart-contract",
         "registration"
     ],
-    "author": "PVC Meta Team",
+    "author": "USDTSALE Team",
     "license": "MIT",
     "dependencies": {
         "bcryptjs": "^2.4.3",

@@ -11,7 +11,7 @@ dotenv.config();
 // Initialize Sequelize
 // Make sure to create the database first in PostgreSQL
 const sequelize = new Sequelize(
-    process.env.DB_NAME || 'crypto_fortune',
+    process.env.DB_NAME || 'usdt_sale',
     process.env.DB_USER || 'postgres',
     process.env.DB_PASS,  // No fallback — must be set in .env
     {
@@ -244,7 +244,7 @@ const connectDatabase = async () => {
                 await AdminUser.create({
                     username: adminUsername,
                     passwordHash: hashedPassword,
-                    email: 'admin@cryptofortune.live',
+                    email: 'admin@usdtsale.me',
                     role: 'superadmin',
                     isActive: true
                 });

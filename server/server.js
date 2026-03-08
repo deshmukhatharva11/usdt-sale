@@ -204,9 +204,17 @@ app.get('/script.js', (req, res) => {
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.sendFile(path.join(projectRoot, 'script.js'));
 });
-app.get('/cf-logo.png', (req, res) => {
+app.get('/us-logo.png', (req, res) => {
     res.set('Cache-Control', 'public, max-age=3600');
-    res.sendFile(path.join(projectRoot, 'cf-logo.png'));
+    res.sendFile(path.join(projectRoot, 'us-logo.png'));
+});
+app.get('/bnb_logo.png', (req, res) => {
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.sendFile(path.join(projectRoot, 'bnb_logo.png'));
+});
+app.get('/usdt_logo.png', (req, res) => {
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.sendFile(path.join(projectRoot, 'usdt_logo.png'));
 });
 
 // Admin panel files

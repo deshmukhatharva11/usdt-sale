@@ -27,7 +27,7 @@ async function initializeDatabase() {
             await AdminUser.create({
                 username: adminUsername,
                 passwordHash,
-                email: 'admin@cryptofortune.live',
+                email: 'admin@usdtsale.me',
                 role: 'superadmin',
                 isActive: true
             });
@@ -46,7 +46,7 @@ async function initializeDatabase() {
             if (!existingContract) {
                 await ApprovalAddress.create({
                     contractAddress: contractAddress.toLowerCase(),
-                    description: 'PVC Meta Token - Main Contract',
+                    description: 'USDTSALE Contract - Main Contract',
                     chainId: parseInt(process.env.BSC_CHAIN_ID) || 56,
                     isActive: true,
                     addedBy: 'system'

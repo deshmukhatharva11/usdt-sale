@@ -4,7 +4,7 @@ services:
   # If using Cloudflare Tunnel or external reverse proxy, you can remove the ports section entirely
   nginx:
     image: nginx:alpine
-    container_name: cf-nginx
+    container_name: us-nginx
     restart: always
     ports:
       - "127.0.0.1:8080:80"
@@ -13,12 +13,12 @@ services:
     depends_on:
       - backend
     networks:
-      - cf-network
+      - us-network
 
   # Redis Cache (internal only — no public port)
   redis:
     image: redis:7-alpine
-    container_name: cf-redis
+    container_name: us-redis
     restart: always
     ports:
       - "127.0.0.1:6380:6379" # localhost only — avoids conflict with existing Redis on 6379
@@ -26,7 +26,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - cf-network
+      - us-network
     healthcheck:
       test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-changeme_redis}", "ping" ]
       interval: 5s
@@ -36,7 +36,7 @@ services:
   # Backend API
   backend:
     build: .
-    container_name: cf-backend
+    container_name: us-backend
     restart: always
     # Expose as 3001 on host to avoid conflict with existing backend on 3000
     ports:
@@ -45,7 +45,7 @@ services:
       - PORT=3000
       - NODE_ENV=production
       - DB_HOST=pgbouncer
-      - DB_NAME=${DB_NAME:-crypto_fortune}
+      - DB_NAME=${DB_NAME:-usdt_sale}
       - DB_USER=${DB_USER:-postgres}
       - DB_PASS=${DB_PASS}
       - DB_PORT=5432
@@ -70,17 +70,17 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - cf-network
+      - us-network
 
   # PgBouncer Connection Pooler (reverted to edoburu with fix)
   pgbouncer:
     image: edoburu/pgbouncer:latest
-    container_name: cf-pgbouncer
+    container_name: us-pgbouncer
     restart: always
     ports:
       - "127.0.0.1:6433:5432" # localhost only — avoids conflict with existing PgBouncer on 6432
     environment:
-      - DATABASE_URL=postgres://${DB_USER:-postgres}:${DB_PASS}@postgres:5432/${DB_NAME:-crypto_fortune}
+      - DATABASE_URL=postgres://${DB_USER:-postgres}:${DB_PASS}@postgres:5432/${DB_NAME:-usdt_sale}
       - POOL_MODE=session
       - MAX_CLIENT_CONN=200
       - DEFAULT_POOL_SIZE=25
@@ -96,24 +96,24 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - cf-network
+      - us-network
 
   # PostgreSQL Database (internal only — no public port)
   postgres:
     image: postgres:15-alpine
-    container_name: cf-postgres
+    container_name: us-postgres
     restart: always
     ports:
       - "127.0.0.1:5433:5432" # localhost only — avoids conflict with existing Postgres on 5432
     environment:
-      - POSTGRES_DB=${DB_NAME:-crypto_fortune}
+      - POSTGRES_DB=${DB_NAME:-usdt_sale}
       - POSTGRES_USER=${DB_USER:-postgres}
       - POSTGRES_PASSWORD=${DB_PASS}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
-      - cf-network
+      - us-network
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}" ]
       interval: 5s
@@ -124,32 +124,32 @@ services:
   # Moved to 5051 to avoid conflict with existing PgAdmin on 5050
   pgadmin:
     image: dpage/pgadmin4
-    container_name: cf-pgadmin
+    container_name: us-pgadmin
     restart: always
     ports:
       - "127.0.0.1:5051:80"
     environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@cryptofortune.me}
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@usdtsale.me}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-changeme_pgadmin}
     networks:
-      - cf-network
+      - us-network
     depends_on:
       - postgres
-  # Cloudflare Tunnel (not needed — using A record + Cloudflare proxy instead)
-  # cloudflared:
-  #   image: cloudflare/cloudflared:latest
-  #   container_name: cf-cloudflared
-  #   restart: always
-  #   command: tunnel --no-autoupdate run
-  #   environment:
-  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-  #   depends_on:
-  #     - nginx
-  #   networks:
-  #     - cf-network
+  # Cloudflare Tunnel — connects usdtsell.online to us-nginx
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: us-cloudflared
+    restart: always
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - nginx
+    networks:
+      - us-network
 
 networks:
-  cf-network:
+  us-network:
     driver: bridge
 
 volumes:
